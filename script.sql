@@ -1,14 +1,14 @@
 create table Pessoa_tb (cpf varchar2(11), nome varchar(100), idade integer, 
-                        CONSTRAINT Pessoa_tb_pk PRIMARY KEY (cpf));
+                        CONSTRAINT Pessoa_tb_pk PRIMARY KEY (cpf)); 
                         
 create table Telefone_Pessoa_tb (cpf varchar2(11), contato varchar(11), 
                                 CONSTRAINT Telefone_Pessoa_tb_pk PRIMARY KEY (cpf, contato), 
                                 CONSTRAINT Telefone_Pessoa_tb_fk FOREIGN KEY (cpf) 
                                     REFERENCES Pessoa_tb (cpf));
                                     
-create table Bagagem_tb (bag_id integer,peso float, inspecao integer,
+create table Bagagem_tb (bag_id integer,peso float, inspecao boolean,
                         CONSTRAINT Bagagem_tb_pk PRIMARY KEY (bag_id));
-
+ 
 create table Comp_aerea_tb (cnpj varchar2(14), nome varchar(100),
                             CONSTRAINT Comp_aerea_tb_pk PRIMARY KEY (cnpj));
                             
