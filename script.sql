@@ -19,7 +19,7 @@ create table Telefone_Pessoa_tb (
                                     
 create table Endereco_tb (
 
-    cpf varchar2(11) ,
+    cpf varchar2(11),
     numero varchar2(10),
     CEP varchar2(8),
     CONSTRAINT Endereco_tb_pk PRIMARY KEY (cpf),
@@ -34,9 +34,9 @@ create table CEP_tb (
     cep varchar2(8),
     rua varchar2(50),
     cidade varchar2(20),
-    CONSTRAINT CEP_tb_pk PRIMARY KEY (cep),
+    CONSTRAINT CEP_tb_pk PRIMARY KEY (cep)/*,
     CONSTRAINT CEP_tb_fk FOREIGN KEY (cep)
-        REFERENCES Endereco_tb (CEP)
+        REFERENCES Endereco_tb (CEP)*/
 
 );
 
@@ -49,9 +49,9 @@ create table Tripulante_tb (
     cadastro_supervisor integer,
     CONSTRAINT Tripulante_tb_pk PRIMARY KEY (cpf_pe),
     CONSTRAINT Tripulante_tb_fk1 FOREIGN KEY (cpf_pe)
-        REFERENCES Pessoa_tb(cpf),
+        REFERENCES Pessoa_tb(cpf)/*,
     CONSTRAINT Tripulante_tb_fk2 FOREIGN KEY (cadastro_supervisor)
-        REFERENCES Tripulante_tb(cadastro)
+        REFERENCES Tripulante_tb(cadastro)*/
                                 
 );
 
@@ -59,7 +59,7 @@ create table Passageiro_tb (
     
     cpf_pe varchar2(11), 
     fidelidade varchar2(10),
-    CONSTRAINT Passageiro_tb_pk PRIMARY KEY (cpf_pe)
+    CONSTRAINT Passageiro_tb_pk PRIMARY KEY (cpf_pe),
     CONSTRAINT Passageiro_tb_fk FOREIGN KEY (cpf_pe)
         REFERENCES Pessoa_tb(cpf)
         
@@ -70,10 +70,11 @@ create table Bagagem_tb (
     cpf_pa varchar2(11),
     bag_id integer,
     peso float, 
-    inspecao boolean,
+    inspecao integer,
+    Check (inspecao = 1 OR inspecao = 0),
     CONSTRAINT Bagagem_tb_pk PRIMARY KEY (cpf_pa, bag_id),
     CONSTRAINT Bagagem_tb_fk FOREIGN KEY (cpf_pa)
-        REFERENCES Passageiro_tb (cpf)
+        REFERENCES Passageiro_tb (cpf_pe)
                         
 );
 
@@ -110,9 +111,9 @@ create table Modelo_aviao_tb (
 
     tipo_aviao varchar2(20), 
     capacidade_aviao integer,
-    CONSTRAINT Modelo_aviao_tb_pk PRIMARY KEY (tipo_aviao),
+    CONSTRAINT Modelo_aviao_tb_pk PRIMARY KEY (tipo_aviao)/*,
     CONSTRAINT Modelo_aviao_tb_fk FOREIGN KEY (tipo_aviao)
-        REFERENCES Aviao_tb (tipo)
+        REFERENCES Aviao_tb (tipo)*/
     
 );
 
@@ -131,17 +132,17 @@ create table Voo_tb (
 
 create table Compra_tb (
 
-    id integer,
+    id_compra integer,
     cnpj_cia varchar2(14),
     valor number(5,2),
     porcentagem integer,
     CHECK (porcentagem > 0 AND porcentagem <= 100),
     cpf_pa varchar2(11),
-    CONSTRAINT Compra_tb_pk PRIMARY KEY (id),
+    CONSTRAINT Compra_tb_pk PRIMARY KEY (id_compra),
     CONSTRAINT Compra_tb_fk1 FOREIGN KEY (cnpj_cia)
-        REFERENCES Comp_aerea_tb FOREIGN KEY (cnpj),
+        REFERENCES Comp_aerea_tb (cnpj),
     CONSTRAINT Compra_tb_fk2 FOREIGN KEY (cpf_pa)
-        REFERENCES Passageiro_tb FOREIGN KEY (cpf)
+        REFERENCES Passageiro_tb (cpf_pe)
     
 );
 
@@ -155,7 +156,7 @@ create table Passagem_tb (
     CONSTRAINT Passagem_tb_fk1 FOREIGN KEY (codigo_voo)
         REFERENCES Voo_tb (codigo),
     CONSTRAINT Passagem_tb_fk2 FOREIGN KEY (id_compra)
-        REFERENCES Compra_tb (id)
+        REFERENCES Compra_tb (id_compra)
 
 );
 
@@ -184,6 +185,6 @@ create table Escala_tb (
     CONSTRAINT Escala_tb_fk2 FOREIGN KEY (codigo_voo)
         REFERENCES Voo_tb (codigo),
     CONSTRAINT Escala_tb_fk3 FOREIGN KEY (cpf_tri)
-        REFERENCES Tripulante_tb (cpf_tri)
+        REFERENCES Tripulante_tb (cpf_pe)
 
 );
