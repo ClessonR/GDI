@@ -16,7 +16,16 @@ create table Telefone_Pessoa_tb (
         REFERENCES Pessoa_tb (cpf)
         
 );
-                                    
+
+create table CEP_tb (
+
+    cep varchar2(8),
+    rua varchar2(50),
+    cidade varchar2(20),
+    CONSTRAINT CEP_tb_pk PRIMARY KEY (cep)
+);
+
+
 create table Endereco_tb (
 
     cpf varchar2(11),
@@ -24,35 +33,26 @@ create table Endereco_tb (
     CEP varchar2(8),
     CONSTRAINT Endereco_tb_pk PRIMARY KEY (cpf),
     CONSTRAINT Endereco_tb_fk FOREIGN KEY (cpf)
-        REFERENCES Pessoa_tb (cpf)
+        REFERENCES Pessoa_tb (cpf),
+    CONSTRAINT Endereco_tb_fk2 FOREIGN KEY (CEP)
+        REFERENCES CEP_tb (CEP)
 
 );
 
 
-create table CEP_tb (
-
-    cep varchar2(8),
-    rua varchar2(50),
-    cidade varchar2(20),
-    CONSTRAINT CEP_tb_pk PRIMARY KEY (cep)/*,
-    CONSTRAINT CEP_tb_fk FOREIGN KEY (cep)
-        REFERENCES Endereco_tb (CEP)*/
-
-);
 
 create table Tripulante_tb (
 
     cpf_pe varchar2(11), 
-    cadastro integer, 
+    cadastro integer UNIQUE, 
     cargo varchar2(20), 
     salario number(6,2), 
     cadastro_supervisor integer,
     CONSTRAINT Tripulante_tb_pk PRIMARY KEY (cpf_pe),
     CONSTRAINT Tripulante_tb_fk1 FOREIGN KEY (cpf_pe)
-        REFERENCES Pessoa_tb(cpf)/*,
+        REFERENCES Pessoa_tb(cpf),
     CONSTRAINT Tripulante_tb_fk2 FOREIGN KEY (cadastro_supervisor)
-        REFERENCES Tripulante_tb(cadastro)*/
-                                
+        REFERENCES Tripulante_tb(cadastro)
 );
 
 create table Passageiro_tb (
@@ -96,6 +96,14 @@ create table Telefone_Comp_aerea_tb (
     
 );
 
+create table Modelo_aviao_tb (
+
+    tipo_aviao varchar2(20), 
+    capacidade_aviao integer,
+    CONSTRAINT Modelo_aviao_tb_pk PRIMARY KEY (tipo_aviao)
+
+);
+
 create table Aviao_tb (
 
     aviao_id integer, 
@@ -103,19 +111,13 @@ create table Aviao_tb (
     tipo varchar2(100),
     CONSTRAINT Aviao_tb_pk PRIMARY KEY (aviao_id),
     CONSTRAINT Aviao_tb_fk FOREIGN KEY (cnpj_cia)
-        REFERENCES Comp_aerea_tb (cnpj)
+        REFERENCES Comp_aerea_tb (cnpj),
+    CONSTRAINT Aviao_tb_fk2 FOREIGN KEY (tipo)
+        REFERENCES Modelo_aviao_tb (tipo_aviao)
                         
 );
 
-create table Modelo_aviao_tb (
 
-    tipo_aviao varchar2(20), 
-    capacidade_aviao integer,
-    CONSTRAINT Modelo_aviao_tb_pk PRIMARY KEY (tipo_aviao)/*,
-    CONSTRAINT Modelo_aviao_tb_fk FOREIGN KEY (tipo_aviao)
-        REFERENCES Aviao_tb (tipo)*/
-    
-);
 
 create table Voo_tb (
 
