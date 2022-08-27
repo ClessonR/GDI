@@ -1,4 +1,4 @@
-CREATE SEQUENCE Tripulante_tb.cadastro
+CREATE SEQUENCE Tripulante_seq
 START WITH 1 
 INCREMENT BY 1;
 
