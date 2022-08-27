@@ -128,8 +128,8 @@ create table Voo_tb (
     portao char, 
     local_partida varchar2(100), 
     local_chegada varchar2(100),
-    data_partida TIMESTAMP, 
-    data_chegada TIMESTAMP,
+    data_partida date, 
+    data_chegada date,
     CONSTRAINT Voo_tb_pk PRIMARY KEY (codigo)
              
 );
@@ -139,9 +139,9 @@ create table Compra_tb (
 
     id_compra integer,
     cnpj_cia varchar2(14),
-    valor number(5,2),
+    valor number(7,2),
     porcentagem integer,
-    CHECK (porcentagem > 0 AND porcentagem <= 100),
+    CHECK (porcentagem >= 0 AND porcentagem <= 100),
     cpf_pa varchar2(11),
     CONSTRAINT Compra_tb_pk PRIMARY KEY (id_compra),
     CONSTRAINT Compra_tb_fk1 FOREIGN KEY (cnpj_cia)

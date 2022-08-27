@@ -14,7 +14,7 @@
 
 );*/
 
-PR-YSG--airbus
+/*PR-YSG--airbus
 PR-GGE--boing
 PR-GUZ
 PR-YRI
@@ -30,34 +30,34 @@ PR-YSI
 PS-BIR--particular
 PR-YYJ
 PR-YRO
-FAB2584
+FAB2584*/
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PR-YSG',85873,'06059026150','21-06-2022 12:34:01');
+    values ('PR-YSG',74488,'06059026150','21-06-2022 13:14:22');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PR-GGE',78594,'06059026150','21-06-2022 12:34:01');
+    values ('PR-GGE',19525,'38627188670','22-05-2022 12:34:01');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PR-GUZ',8050,'06059026150','21-06-2022 12:34:01');
+    values ('PR-GUZ',93742,'27240059960','19-01-2022 17:54:12');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PR-YRI',2384,'06059026150','21-06-2022 12:34:01');
+    values ('PR-YRI',17942,'28158159664','10-08-2022 11:55:33');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PS-GPA',5159,'06059026150','21-06-2022 12:34:01');
+    values ('PS-GPA',85873,'09516032486','09-02-2022 15:31:06');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PR-AXT',3579,'06059026150','21-06-2022 12:34:01');
+    values ('PR-AXT',84828,'82491793741','08-03-2022 08:13:17');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PR-GXR',3579,'06059026150','21-06-2022 12:34:01');
+    values ('PR-GXR',78594,'95441453206','26-08-2022 16:09:45');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PS-BIR',3579,'06059026150','21-06-2022 12:34:01');
+    values ('PS-BIR',83271,'95441453206','30-04-2022 10:12:11');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('PR-YSG',3579,'06059026150','21-06-2022 12:34:01');
+    values ('PR-YSG',63128,'09516032486','29-07-2022 14:08:09');
 
 insert into Escala_tb (id_aviao,codigo_voo,cfp_tri,data_escala)
-    values ('FAB2584',3579,'06059026150','21-06-2022 12:34:01');
+    values ('FAB2584',13582,'34037975548','21-05-2022 12:36:38');

@@ -67,7 +67,7 @@ insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
     values ('98946747552','Esther Andreia Pereira',61);
     
 insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
-    values ('27901161809','Carlos Paulo Thiago de Paula',31);
+    values ('27901161809','Gustavo Campos',20);
 
 insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
     values ('11096112183','Kamilly Ana da Luz',85);
