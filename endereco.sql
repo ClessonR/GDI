@@ -1,10 +1,10 @@
-create table Endereco_tb (
+/* create table Endereco_tb (
     cpf varchar2(11) ,
     numero varchar2(10),
     CEP varchar2(8),
     CONSTRAINT Endereco_tb_pk PRIMARY KEY (cpf),
     CONSTRAINT Endereco_tb_fk FOREIGN KEY (cpf)
-        REFERENCES Pessoa_tb (cpf));
+        REFERENCES Pessoa_tb (cpf)); */
 
 insert into Endereco_tb (cpf,numero,cep)
     values ('71311506578','811','88311710');

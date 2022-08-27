@@ -1,11 +1,11 @@
-create table CEP_tb (
+/* create table CEP_tb (
     cep varchar2(8),
     rua varchar2(50),
     cidade varchar2(20),
     CONSTRAINT CEP_tb_pk PRIMARY KEY (cep),
     CONSTRAINT CEP_tb_fk FOREIGN KEY (cep)
         REFERENCES Endereco_tb (CEP)
-);
+); */
 
 insert into CEP_tb (cep,rua,cidade)
     values ('88311710','Rua Cardeal Arcoverde','Campo Grande');

@@ -1,8 +1,12 @@
-create table Telefone_Pessoa_tb (cpf varchar2(11), contato varchar(11), 
-                                CONSTRAINT Telefone_Pessoa_tb_pk PRIMARY KEY (cpf, contato), 
-                                CONSTRAINT Telefone_Pessoa_tb_fk FOREIGN KEY (cpf) 
-                                    REFERENCES Pessoa_tb (cpf));
-            
+/* create table Telefone_Pessoa_tb (
+    
+    cpf varchar2(11),
+    contato varchar2(11), 
+    CONSTRAINT Telefone_Pessoa_tb_pk PRIMARY KEY (cpf, contato), 
+    CONSTRAINT Telefone_Pessoa_tb_fk FOREIGN KEY (cpf) 
+        REFERENCES Pessoa_tb (cpf)      
+); */
+
 insert into Telefone_Pessoa_tb (cpf,contato) 
     values ('71311506578','95992915304');
 

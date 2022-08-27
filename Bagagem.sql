@@ -1,4 +1,4 @@
-create table Bagagem_tb (
+/* create table Bagagem_tb (
     
     cpf_pa varchar2(11),
     bag_id integer,
@@ -10,4 +10,4 @@ create table Bagagem_tb (
         REFERENCES Passageiro_tb (cpf_pe)
                         
 );
-
+ */

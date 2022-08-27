@@ -1,4 +1,5 @@
-create table Telefone_Comp_aerea_tb (
+
+/* create table Telefone_Comp_aerea_tb (
     
     cnpj_cia varchar2(14),
     contato varchar2(15),
@@ -6,7 +7,7 @@ create table Telefone_Comp_aerea_tb (
     CONSTRAINT Telefone_Comp_aerea_fk FOREIGN KEY (cnpj_cia)
         REFERENCES Comp_aerea_tb (cnpj)
     
-);
+); */
 
 -- Azul
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)

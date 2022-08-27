@@ -1,10 +1,10 @@
-create table Comp_aerea_tb (
+/* create table Comp_aerea_tb (
 
     cnpj varchar2(14), 
     nome varchar2(30),
     CONSTRAINT Comp_aerea_tb_pk PRIMARY KEY (cnpj)
 
-);
+); */
 
 insert into Comp_aerea_tb (cnpj, nome)
     values ('06164253000187', 'Azul Airlines');

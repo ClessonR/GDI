@@ -1,6 +1,6 @@
-create table Pessoa_tb (cpf varchar2(11), nome varchar(100), idade integer, 
+/* create table Pessoa_tb (cpf varchar2(11), nome varchar(100), idade integer, 
                         CONSTRAINT Pessoa_tb_pk PRIMARY KEY (cpf)); 
-                        
+                         */
 insert into Pessoa_tb (cpf,nome,idade)
     values ('71311506578','Heitor Yuri da Silva',28);
     

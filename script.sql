@@ -1,3 +1,7 @@
+CREATE SEQUENCE Tripulante_tb.cadastro
+START WITH 1 
+INCREMENT BY 1;
+
 create table Pessoa_tb (
     
     cpf varchar2(11), 
@@ -13,8 +17,7 @@ create table Telefone_Pessoa_tb (
     contato varchar2(11), 
     CONSTRAINT Telefone_Pessoa_tb_pk PRIMARY KEY (cpf, contato), 
     CONSTRAINT Telefone_Pessoa_tb_fk FOREIGN KEY (cpf) 
-        REFERENCES Pessoa_tb (cpf)
-        
+        REFERENCES Pessoa_tb (cpf)      
 );
 
 create table CEP_tb (
@@ -36,7 +39,6 @@ create table Endereco_tb (
         REFERENCES Pessoa_tb (cpf),
     CONSTRAINT Endereco_tb_fk2 FOREIGN KEY (CEP)
         REFERENCES CEP_tb (CEP)
-
 );
 
 
@@ -54,6 +56,8 @@ create table Tripulante_tb (
     CONSTRAINT Tripulante_tb_fk2 FOREIGN KEY (cadastro_supervisor)
         REFERENCES Tripulante_tb(cadastro)
 );
+
+
 
 create table Passageiro_tb (
     
