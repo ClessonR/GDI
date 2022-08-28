@@ -9,16 +9,37 @@ create table Aviao_tb (
         REFERENCES Modelo_aviao_tb (tipo_aviao)     
 );
 
+-- Azul Airlines
 insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YSG','06164253000187','A320neo') 
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-GGE','06164253000187','A320')
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YSG','06164253000187','737-900ER') 
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YRI','06164253000187','A320')
+
+-- Gol Airlines
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YSG','09296295000160','A320neo') 
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YRI','09296295000160','A320')
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YJF','09296295000160','A320')
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-GGE','09296295000160','737-900ER')
+
+-- LATAM Airlines
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YSG','02012862000160','A320neo') 
 insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YRI','02012862000160','A320')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YJF','06164253000187','A320')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-GGE','09296295000160','Gol Airlines')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-GUZ','06164253000187','Gol Airlines')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PS-GPA','American Airlines','737-700')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-AXT','Emirates Airlines','737-800')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-GXR','Gol Airlines','737-700')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('F-GZNR','TAP Air Portugal','A330')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-GGR','LATAM Airlines','A320neo')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PS-BIR','Azul Airlines','E195-E2')
-insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YRO','Azul Airlines','E195-E2')
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YJF','02012862000160','A320')
+
+--TAP Air Portugal
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-GUZ','33136896000190','A330')
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PS-GPA','33136896000190','A330')
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-AXT','33136896000190','737-900ER')
+
+-- Copa Airlines
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YSG','03834757000179','A320neo') 
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YRI','03834757000179','E195-E2')
+
+-- Emirates Airlines
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YSG','08692080000286','A330') 
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YRI','08692080000286','A330')
+
+-- American Airlines
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YSG','06164253000187','737-900ER') 
+insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PR-YRI','36212637000199','737-800')
 

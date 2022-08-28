@@ -25,5 +25,32 @@ create table Tripulante_tb (
 );
 
 
-insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) values ('44527288989',Tripulante_seq.NEXTVAL,'corno','30')
-insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) values ('71311506578',Tripulante_seq.NEXTVAL,'corno','30')
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('06059026150',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('38627188670',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('27240059960',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('28158159664',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('09516032486',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('82491793741',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('58777771907',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('95441453206',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('58615293961',Tripulante_seq.NEXTVAL,'corno','30')
+
+insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario) 
+    values ('34037975548',Tripulante_seq.NEXTVAL,'corno','30')

@@ -1,6 +1,9 @@
 /* create table Pessoa_tb (cpf varchar2(11), nome varchar(100), idade integer, 
                         CONSTRAINT Pessoa_tb_pk PRIMARY KEY (cpf)); 
                          */
+
+-- Passageiro
+
 insert into Pessoa_tb (cpf,nome,idade)  -- Passageiro
     values ('71311506578','Heitor Yuri da Silva',28);
     
@@ -29,9 +32,7 @@ insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
     values ('14121741633','Giovanna Catarina Laura da Mota',39);
     
 insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
-    values ('34988775267','Isabella Vanessa Ferreira',53);
-
--- Clesson
+    values ('34988775267','Isabella Vanessa Ferreira',53)
 
 insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
     values ('18683894487','Milena Adriana Kamilly Duarte',20);
@@ -56,9 +57,6 @@ insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
 
 insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
     values ('70740420801','Davi Rodrigo Tomás Assis',68);
-
-
--- DAvi:
 
 insert into Pessoa_tb (cpf,nome,idade) -- Passageiro
     values ('10982770669','João Mário Igor Aparício',25);
@@ -91,9 +89,6 @@ insert into Pessoa_tb (cpf,nome,idade) --Tripulante
 
 insert into Pessoa_tb (cpf,nome,idade) --Tripulante
     values ('28158159664','Tomás Rafael de Paula',45);
-
-
---VAN
 
 insert into Pessoa_tb (cpf,nome,idade) --Tripulante
     values ('09516032486','Sophia Aurora Galvão',20);

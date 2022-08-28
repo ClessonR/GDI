@@ -65,7 +65,7 @@ insert into Passageiro_tb (cpf_pe, fidelidade)
     values ('34988775267', 1);
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('10982770669', 1);
+    values ('10982770669', 0);
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
     values ('98946747552', 1);
@@ -77,7 +77,7 @@ insert into Passageiro_tb (cpf_pe, fidelidade)
     values ('11096112183', 1);
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('78860429560', 1);
+    values ('78860429560', 0);
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
     values ('69334029676', 1);
