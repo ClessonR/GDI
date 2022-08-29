@@ -18,7 +18,7 @@ insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
     values (350326078, '06164253000187', 3000.50, 0, '18683894487');
 
 insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
-    values (264400458, '09296295000160', 4500.50, 10, '49152142140');
+    values (264400458, '09296295000160', 1500.50, 10, '49152142140');
 
 insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
     values (312984064, '02012862000160', 759.00, 0, '00853954550');
@@ -27,7 +27,7 @@ insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
     values (178693652, '06164253000187', 545.00, 15, '69444744507');
 
 insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
-    values (981102074, '03834757000179', 4243.75, 0, '71518987702');
+    values (981102074, '03834757000179', 4243.75, 10, '71518987702');
 
 insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
     values (495663180, '09296295000160', 3175.25, 5, '40681591064');
@@ -60,10 +60,10 @@ insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
     values (472676094, '06164253000187', 2000.37, 0, '44527288989');
 
 insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
-    values (664171520, '33136896000190', 3960.21, 20, '54657828622');
+    values (664171520, '33136896000190', 960.21, 20, '54657828622');
 
 insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
-    values (486218148, '02012862000160', 20096.20, 0, '03757527062');
+    values (486218148, '02012862000160', 10096.20, 5, '03757527062');
 
 insert into Compra_tb (id_compra, cnpj_cia, valor, porcentagem, cpf_pa)
     values (944334495, '36212637000199', 5000.00, 0, '71518987702');

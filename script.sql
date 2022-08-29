@@ -47,8 +47,9 @@ create table Tripulante_tb (
 
     cpf_pe varchar2(11), 
     cadastro integer UNIQUE, 
-    cargo varchar2(20), 
-    salario number(6,2), 
+    cargo varchar2(20),
+    CHECK (cargo = 'Piloto' or cargo = 'Comissário'), 
+    salario number(8,2), 
     cadastro_supervisor integer,
     CONSTRAINT Tripulante_tb_pk PRIMARY KEY (cpf_pe),
     CONSTRAINT Tripulante_tb_fk1 FOREIGN KEY (cpf_pe)
@@ -153,7 +154,7 @@ create table Compra_tb (
 
 create table Passagem_tb ( 
     
-    passagem_id integer, 
+    passagem_id varchar2(6), 
     assento varchar2(10),
     codigo_voo integer,
     id_compra integer,

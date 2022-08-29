@@ -15,7 +15,7 @@ create table Tripulante_tb (
     cpf_pe varchar2(11), 
     cadastro integer UNIQUE, 
     cargo varchar2(20), 
-    salario number(6,2), 
+    salario number(8,2), 
     cadastro_supervisor integer,
     CONSTRAINT Tripulante_tb_pk PRIMARY KEY (cpf_pe),
     CONSTRAINT Tripulante_tb_fk1 FOREIGN KEY (cpf_pe)
