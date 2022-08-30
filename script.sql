@@ -126,7 +126,7 @@ create table Aviao_tb (
 create table Voo_tb (
 
     codigo integer, 
-    portao char, 
+    portao varchar2(3), 
     local_partida varchar2(100), 
     local_chegada varchar2(100),
     data_partida date, 
