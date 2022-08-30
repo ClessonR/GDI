@@ -1,10 +1,9 @@
 /* create table CEP_tb (
+
     cep varchar2(8),
     rua varchar2(50),
     cidade varchar2(20),
-    CONSTRAINT CEP_tb_pk PRIMARY KEY (cep),
-    CONSTRAINT CEP_tb_fk FOREIGN KEY (cep)
-        REFERENCES Endereco_tb (CEP)
+    CONSTRAINT CEP_tb_pk PRIMARY KEY (cep)
 ); */
 
 insert into CEP_tb (cep,rua,cidade)
