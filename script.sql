@@ -1,3 +1,6 @@
+ALTER SESSION SET NLS_DATE_FORMAT = 'dd-mm-yyyy';
+ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'dd-mm-yyyy hh24:mi:ss';
+
 CREATE SEQUENCE Tripulante_seq
 START WITH 1 
 INCREMENT BY 1;
@@ -129,8 +132,8 @@ create table Voo_tb (
     portao varchar2(3), 
     local_partida varchar2(100), 
     local_chegada varchar2(100),
-    data_partida date, 
-    data_chegada date,
+    data_partida TIMESTAMP, 
+    data_chegada TIMESTAMP,
     CONSTRAINT Voo_tb_pk PRIMARY KEY (codigo)
              
 );
@@ -176,7 +179,6 @@ create table Trabalha_tb (
         REFERENCES Comp_aerea_tb (cnpj),
     CONSTRAINT Trabalha_tb_fk2 FOREIGN KEY (cpf_tri)
         REFERENCES Tripulante_tb (cpf_pe)
-
 );
 
 create table Escala_tb (
@@ -184,7 +186,7 @@ create table Escala_tb (
     id_aviao varchar2(10), 
     codigo_voo integer, 
     cpf_tri varchar2(11), 
-    data_escala date,
+    data_escala TIMESTAMP,
     CONSTRAINT Escala_tb_pk PRIMARY KEY (id_aviao, codigo_voo, cpf_tri),
     CONSTRAINT Escala_tb_fk1 FOREIGN KEY (id_aviao)
         REFERENCES Aviao_tb (aviao_id),
