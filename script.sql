@@ -27,7 +27,7 @@ create table CEP_tb (
 
     cep varchar2(8),
     rua varchar2(50),
-    cidade varchar2(20),
+    cidade varchar2(40),
     CONSTRAINT CEP_tb_pk PRIMARY KEY (cep)
 );
 
@@ -97,7 +97,7 @@ create table Comp_aerea_tb (
 create table Telefone_Comp_aerea_tb (
     
     cnpj_cia varchar2(14),
-    contato varchar2(11),
+    contato varchar2(15),
     CONSTRAINT Telefone_Comp_aerea_tb PRIMARY KEY(cnpj_cia, contato),
     CONSTRAINT Telefone_Comp_aerea_fk FOREIGN KEY (cnpj_cia)
         REFERENCES Comp_aerea_tb (cnpj)

@@ -31,47 +31,47 @@ insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
 -- Gol
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '03001152121');
+    values ('09296295000160', '03001152121');
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '+551155044410');
+    values ('09296295000160', '+551155044410');
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '08007090466');
+    values ('09296295000160', '08007090466');
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '03001157007');
+    values ('09296295000160', '03001157007');
 
 -- LATAM
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '03005705700');
+    values ('02012862000160', '03005705700');
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '40025700');
+    values ('02012862000160', '40025700');
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '551140025700');
+    values ('02012862000160', '551140025700');
 
 -- TAP
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '08007272347');
+    values ('33136896000190', '08007272347');
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '08008882099');
+    values ('33136896000190', '08008882099');
 
 -- COPA
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '551149332399');
+    values ('03834757000179', '551149332399');
 
 -- EMIRATES
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '+551155035000');
+    values ('08692080000286', '+551155035000');
 
 -- AA
 
 insert into Telefone_Comp_aerea_tb (cnpj_cia, contato)
-    values ('06164253000187', '30045000');
+    values ('36212637000199', '30045000');

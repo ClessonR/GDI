@@ -1,9 +1,9 @@
-create table Escala_tb (
+/*create table Escala_tb (
     
     id_aviao varchar2(10), 
     codigo_voo integer, 
     cpf_tri varchar2(11), 
-    data_escala date,
+    data_escala TIMESTAMP,
     CONSTRAINT Escala_tb_pk PRIMARY KEY (id_aviao, codigo_voo, cpf_tri),
     CONSTRAINT Escala_tb_fk1 FOREIGN KEY (id_aviao)
         REFERENCES Aviao_tb (aviao_id),
@@ -12,7 +12,7 @@ create table Escala_tb (
     CONSTRAINT Escala_tb_fk3 FOREIGN KEY (cpf_tri)
         REFERENCES Tripulante_tb (cpf_pe)
 
-);
+);*/
 
 
 -- voo 74488
