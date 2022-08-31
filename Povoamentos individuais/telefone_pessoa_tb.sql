@@ -52,8 +52,6 @@ insert into Telefone_Pessoa_tb (cpf,contato)
 insert into Telefone_Pessoa_tb (cpf,contato) 
     values ('14121741633','6337666892');
 
--- Ultimo Insert
-
 insert into Telefone_Pessoa_tb (cpf,contato) 
     values ('18683894487','81987190672');
 
@@ -84,9 +82,6 @@ insert into Telefone_Pessoa_tb (cpf,contato)
 insert into Telefone_Pessoa_tb (cpf,contato) 
     values ('70740420801','83996022273');
 
-
-
---Davi
 insert into Telefone_Pessoa_tb (cpf,contato) 
     values ('10982770669','27989149727');
 
@@ -127,9 +122,6 @@ insert into Telefone_Pessoa_tb (cpf,contato)
 insert into Telefone_Pessoa_tb (cpf,contato) 
     values ('28158159664','47987598623');
 
-
-
---VAN
 insert into Telefone_Pessoa_tb (cpf,contato) 
     values ('09516032486','49993731254');
 

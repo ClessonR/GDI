@@ -40,8 +40,6 @@ insert into Endereco_tb (cpf,numero,cep)
 insert into Endereco_tb (cpf,numero,cep)
     values ('14121741633','259','59066454');
 
--- Ultimo Insert
-
 insert into Endereco_tb (cpf,numero,cep)
     values ('18683894487','228','51160061');
 
@@ -65,9 +63,7 @@ insert into Endereco_tb (cpf,numero,cep)
 
 insert into Endereco_tb (cpf,numero,cep)
     values ('70740420801','963','58046514');
-    
 
---Davi
 insert into Endereco_tb (cpf,numero,cep)
     values ('10982770669','364','69313179');
 
@@ -97,9 +93,6 @@ insert into Endereco_tb (cpf,numero,cep)
 
 insert into Endereco_tb (cpf,numero,cep)
     values ('28158159664','227','69309515');
-
-
---VAN
 
 insert into Endereco_tb (cpf,numero,cep)
     values ('09516032486','237','88502280');

@@ -36,8 +36,6 @@ insert into CEP_tb (cep,rua,cidade)
 insert into CEP_tb (cep,rua,cidade)
     values ('59066454','Rua Otávio Sebastião','Oficinas');
 
--- Ultimo Insert
-
 insert into CEP_tb (cep,rua,cidade)
     values ('51160061','Travessa Sargento do S. Macêdo','Recife');
 
@@ -62,7 +60,6 @@ insert into CEP_tb (cep,rua,cidade)
 insert into CEP_tb (cep,rua,cidade)
     values ('58046514','Rua Iraci de Barros Soares','João Pessoa');
 
---Davi
 insert into CEP_tb (cep,rua,cidade)
     values ('69313179','Avenida dos Bandeirantes','Boa Vista');
 
@@ -92,10 +89,6 @@ insert into CEP_tb (cep,rua,cidade)
 
 insert into CEP_tb (cep,rua,cidade)
     values ('69309515','RAvenida Jones dos Santos','São Mateus');
-
-
-
---VAN
 
 insert into CEP_tb (cep,rua,cidade)
     values ('88502280','Rua Soroptimista','Lages');
