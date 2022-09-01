@@ -1,4 +1,7 @@
-/*create table Escala_tb (
+/*
+ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'dd-mm-yyyy hh24:mi:ss';
+
+create table Escala_tb (
     
     id_aviao varchar2(10), 
     codigo_voo integer, 

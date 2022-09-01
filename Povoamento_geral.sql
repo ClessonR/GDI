@@ -855,6 +855,8 @@ insert into Aviao_tb (aviao_id,cnpj_cia,tipo) values ('PP-HEE','36212637000199',
 
 ----Voo
 
+ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'dd-mm-yyyy hh24:mi:ss';
+
 insert into Voo_tb (codigo,portao,local_partida,local_chegada,data_partida,data_chegada)
     values (74488,'13','Brasília','Recife','25-06-2022 13:14:22','25-06-2022 16:25:21');
 
@@ -1041,6 +1043,8 @@ insert into Passagem_tb (passagem_id, assento, codigo_voo, id_compra)
 
 ----Trabalha
 
+ALTER SESSION SET NLS_DATE_FORMAT = 'dd-mm-yyyy';
+
 --- Primeiro Turno ---
 insert into Trabalha_tb (cnpj_cia,cpf_tri,data_trabalha) -- Piloto 
     values ('06164253000187','06059026150','01-02-2022' );
@@ -1187,6 +1191,8 @@ insert into Trabalha_tb (cnpj_cia,cpf_tri,data_trabalha) -- Comissário
     values ('08692080000286','95441453206','20-08-2022');
 
 ----Escala
+
+ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'dd-mm-yyyy hh24:mi:ss';
 
 -- voo 74488
 

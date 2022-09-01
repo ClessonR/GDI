@@ -1,11 +1,14 @@
-/*create table Voo_tb (
+/*
+ALTER SESSION SET NLS_TIMESTAMP_FORMAT = 'dd-mm-yyyy hh24:mi:ss';
+
+create table Voo_tb (
 
     codigo integer, 
     portao varchar2(3), 
     local_partida varchar2(100), 
     local_chegada varchar2(100),
-    data_partida date, 
-    data_chegada date,
+    data_partida TIMESTAMP, 
+    data_chegada TIMESTAMP,
     CONSTRAINT Voo_tb_pk PRIMARY KEY (codigo)
              
 );*/

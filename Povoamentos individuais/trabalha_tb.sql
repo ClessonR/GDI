@@ -1,4 +1,7 @@
-/* create table Trabalha_tb (
+/* 
+ALTER SESSION SET NLS_DATE_FORMAT = 'dd-mm-yyyy';
+
+create table Trabalha_tb (
     cnpj_cia varchar2(14),
     cpf_tri varchar2(11),
     data_trabalha date,
