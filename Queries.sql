@@ -3,6 +3,12 @@ insert into Comp_aerea_tb (cnpj, nome)
     values ('29609139000119', 'malaysia airlines');
 DELETE from Comp_aerea_tb WHERE cnpj = '29609139000119';
 
+-- 4) o local de destino do voo de código 93742 deveria ser Recife em vez de Porto Alegre
+update voo_tb
+set local_chegada = 'Recife'
+WHERE codigo = '93742';
+
+
 -- 6/8/11) consultar nome, cpf, idade e fidelidade dos Passageiros que residem em Recife ou Rondonópolis
 select P.nome, P.cpf, P.idade, PA.fidelidade
 from pessoa_tb P
@@ -14,6 +20,16 @@ from pessoa_tb P
         on P.cpf = PA.cpf_pe
 where C.cidade in ('Recife', 'Rondonópolis')
 
+-- 7) Exibir nome e cpf dos funcionários que trabalharam nos meses de junho e julho
+select P.nome, P.cpf
+from trabalha_tb T
+    inner join tripulante_tb TR
+        on T.cpf_tri = TR.cpf_pe
+    inner join pessoa_tb P
+        on TR.cpf_pe = P.cpf
+where T.data_trabalha between to_date('01/06/2022', 'dd/mm/yyyy') and to_date('30/07/2022', 'dd/mm/yyyy')
+group by (P.nome,P.cpf)
+
 -- 9) Selecina passageiros cujoo nome se inicia pela letra 'M'
 select P.cpf, P.nome, P.idade
 from pessoa_tb P
@@ -21,7 +37,7 @@ from pessoa_tb P
         on P.cpf = PA.cpf_pe
 WHERE nome LIKE 'M%';
 
--- 12) consultar compra(s) com maior percentual de desconto exibindo o ID da compra o percentual do desconto e o nome do comprador
+-- 12/18) consultar compra(s) com maior percentual de desconto exibindo o ID da compra o percentual do desconto e o nome do comprador
 
 select C.id_compra, C.porcentagem, P.nome 
 from compra_tb C
@@ -30,13 +46,6 @@ from compra_tb C
     inner join pessoa_tb P
         on PA.cpf_pe = P.cpf
 where porcentagem in (select max(porcentagem) from compra_tb)
-
-
--- 21) exibir informações de cpf, cargo e salário dos tripulantes ordenados por salário 
-select cpf_pe, cargo, salario
-from tripulante_tb
-order by salario DESC
-    
 
 -- 10) Selecionar apenas os tripulantes supervisionados
 select P.nome, T.cadastro, T.cargo
@@ -73,6 +82,10 @@ select * from capacidade_voo_tb;
 select * from capacidade_voo_tb
 where ocupacao in (select min(ocupacao) from capacidade_voo_tb)
 
+-- 21) exibir informações de cpf, cargo e salário dos tripulantes ordenados por salário 
+select cpf_pe, cargo, salario
+from tripulante_tb
+order by salario DESC 
 
 -- 26) Concede permissão publica para todas as operações na view capacidade_voo_tb 
 -- e depois revoga permissão.
