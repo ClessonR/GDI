@@ -1,3 +1,8 @@
+-- 2. Create index na tabela endereço e na coluna CPF;
+CREATE INDEX idx_edc
+ON endereco_tb(CPF);
+
+
 -- 3 & 5) Inserindo linha em COMP AEREA e logo em seguida deletando-a
 insert into Comp_aerea_tb (cnpj, nome)
     values ('29609139000119', 'malaysia airlines');
@@ -51,6 +56,15 @@ from (select cpf_pa, count(*) as tot_bagagem
 from bagagem_tb
 group by cpf_pa)
 
+-- 16 Mostrar todos os dados dos tripulantes dado que seu cargo é comissário
+SELECT * from pessoa_tb 
+FULL OUTER JOIN tripulante_tb 
+ON pessoa_tb.CPF = tripulante_tb.CPF_PE
+WHERE tripulante_tb.CARGO = 'Comissário'
+
+-- 17 Selecionando o cnpj e o nome de uma companhia aerea baseando-se apenas no seu número;
+SELECT * FROM COMP_AEREA_TB WHERE COMP_AEREA_TB.CNPJ = 
+(SELECT CNPJ_CIA FROM TELEFONE_COMP_AEREA_TB WHERE TELEFONE_COMP_AEREA_TB.contato ='08008871118');
 
 -- 22/15) mostrar a quantidade de aviões que cada companhia aérea possui
 select C.nome as cia_aerea, count(*) as tot_aeronaves
