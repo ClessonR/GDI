@@ -72,7 +72,22 @@ from aviao_tb A
     inner join comp_aerea_tb C
         on A.cnpj_cia = C.cnpj
 group by C.nome
-    
+
+
+-- 19)Retorna as colunas de todas as pessoas que são tripulantes com cargo de piloto
+SELECT * FROM pessoa_tb
+WHERE cpf = ANY (SELECT cpf_pe FROM tripulante_tb WHERE cargo = 'Piloto');
+
+-- 24) Retorna todos os aviões que estão escalados.
+SELECT id_aviao FROM escala_tb
+UNION
+SELECT aviao_id FROM aviao_tb
+
+-- 22/23) Retorna o cpf de todos os passageiros que já compraram mais de 10.000 em passagens*/
+SELECT cpf_pa, SUM(valor) AS total FROM compra_tb
+GROUP BY cpf_pa
+HAVING SUM(valor) > 10000;
+ 
 -- 13/25) cria view sobre a lotação de cada voo e dps consulta os voos com a menor lotação
 
 drop view capacidade_voo_tb;
