@@ -1,3 +1,7 @@
+-- 1) Alterando coluna e depois alterando de volta
+alter table pessoa_tb RENAME COLUMN descricao TO description;
+alter table pessoa_tb RENAME COLUMN description TO descricao;
+
 -- 3 & 5) Inserindo linha em COMP AEREA e logo em seguida deletando-a
 insert into Comp_aerea_tb (cnpj, nome)
     values ('29609139000119', 'malaysia airlines');
@@ -7,7 +11,6 @@ DELETE from Comp_aerea_tb WHERE cnpj = '29609139000119';
 update voo_tb
 set local_chegada = 'Recife'
 WHERE codigo = '93742';
-
 
 -- 6/8/11) consultar nome, cpf, idade e fidelidade dos Passageiros que residem em Recife ou Rondonópolis
 select P.nome, P.cpf, P.idade, PA.fidelidade
@@ -91,3 +94,67 @@ order by salario DESC
 -- e depois revoga permissão.
 grant all on capacidade_voo_tb to public;
 revoke all on capacidade_voo_tb to public;
+
+
+------------------------------ PL --------------------------------
+
+-- Função para calcular a soma do peso de todas as bagagens que um passageiro possui
+CREATE OR REPLACE PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE)
+--RETURN bagagem_tb.peso%TYPE   
+IS
+    tot_weight bagagem_tb.peso%TYPE;
+begin
+    select sum(bagagem_tb.peso) into tot_weight
+    from bagagem_tb
+    where bagagem_tb.cpf_pa = cpf;
+
+    --RETURN tot_weight;
+    dbms_output.put_line(tot_weight);
+    
+end peso_total_bagage;
+/
+execute peso_total_bagage('10982770669');
+/
+
+
+
+
+/*10. LOOP EXIT WHEN - comando de repetição com critério de saída definido
+Descrição: Usando como condição de parada a falta de dados no cursor declarado (cursor_func), o LOOP foi programado para 
+armazenar em uma variável (cpfESalario_func) o CPF e o salário dos funcionários que recebem um salário de 2500.00 ou mais. */
+DECLARE
+    
+    iterator BINARY_INTEGER := 0;
+    trip_cpf tripulante_tb.cpf_pe%TYPE;
+    trip_salario tripulante_tb.salario%TYPE;
+    TYPE tripInfo IS RECORD (salario tripulante_tb.salario%TYPE, cpf tripulante_tb.cpf_pe%TYPE);
+    TYPE TabelaFunc IS TABLE OF tripInfo INDEX BY BINARY_INTEGER;
+    cpfESalario_func TabelaFunc;
+    CURSOR cursor_func IS SELECT cpf_pe, salario FROM tripulante_tb;
+    
+BEGIN
+    DBMS_OUTPUT.Put_line('Funcionários que recebem 2500.00 ou mais');
+    OPEN cursor_func;
+    
+        LOOP
+            FETCH cursor_func INTO trip_cpf, trip_salario;
+            IF trip_salario >= 5000.00 THEN
+                cpfESalario_func(iterator).cpf := trip_cpf;
+                cpfESalario_func(iterator).salario := trip_salario;
+                DBMS_OUTPUT.Put_line(cpfESalario_func(iterator).cpf || ' ' || cpfESalario_func(iterator).salario);
+                iterator := iterator+1;
+            END IF;
+            EXIT WHEN cursor_func%NOTFOUND;
+        END LOOP;
+
+    CLOSE cursor_func;
+    
+END;
+/
+
+-- trigger para impedir que haja redução no salário de um tripulante
+
+-- trigger para impedir que um passageiro leve mais de 40kg de bagagem
+
+-- trigger que impede que novos pilotos tenham salario inicial abaixo de 15.000 e que comissários tenham salário inicial inferior a 3.000
+
