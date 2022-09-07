@@ -107,3 +107,20 @@ where ocupacao in (select min(ocupacao) from capacidade_voo_tb)
 -- e depois revoga permissão.
 grant all on capacidade_voo_tb to public;
 revoke all on capacidade_voo_tb to public;
+
+-- PL 
+
+-- 1) usa um record para printar as horas de voo de um piloto
+declare
+TYPE horas_de_voo_piloto IS RECORD ( nome pessoa_tb.nome%type, horas number(8));
+hvp horas_de_voo_piloto;
+begin
+    select p.nome into hvp.nome from pessoa_tb p inner join tripulante_tb t on p.cpf = t.cpf_pe where p.cpf='06059026150';
+    
+    select sum(extract(hour from v.data_chegada- v.data_partida)) +  sum(extract(minute from v.data_chegada- v.data_partida))/60 into hvp.horas from voo_tb v 
+        inner join escala_tb e on v.codigo = e.codigo_voo
+        where e.cpf_tri = '06059026150';
+        
+    dbms_output.put_line(hvp.nome || ' tem ' || hvp.horas || ' de voo registradas');    
+    dbms_output.put_line(hvp.horas);
+end;
