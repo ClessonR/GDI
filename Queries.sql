@@ -181,8 +181,7 @@ DECLARE
     trip_cpf tripulante_tb.cpf_pe%TYPE;
     trip_salario tripulante_tb.salario%TYPE;
     TYPE tripInfo IS RECORD (salario tripulante_tb.salario%TYPE, cpf tripulante_tb.cpf_pe%TYPE);
-    TYPE TabelaTrip IS TABLE OF tripInfo INDEX BY BINARY_INTEGER;
-    cpf_Salario_trip TabelaTrip;
+
     CURSOR cursor_trip IS SELECT cpf_pe, salario FROM tripulante_tb;
     
 BEGIN
