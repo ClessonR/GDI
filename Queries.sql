@@ -92,6 +92,13 @@ group by C.nome
 SELECT * FROM pessoa_tb
 WHERE cpf = ANY (SELECT cpf_pe FROM tripulante_tb WHERE cargo = 'Piloto');
 
+-- 20)o nomes e cpf dos funcionários cujo salário é maior que o salário de todos os funcionários da gol
+SELECT p.nome, p.cpf from pessoa_tb p, tripulante_tb tt
+    WHERE tt.salario > ALL (select t.salario from tripulante_tb t 
+                            inner join trabalha_tb tra on t.cpf_pe = tra.cpf_tri 
+                            inner join comp_aerea_tb comp on tra.cnpj_cia = comp.cnpj
+                            where comp.nome = 'Gol Airlines');
+
 -- 24) Retorna todos os aviões que estão escalados.
 SELECT id_aviao FROM escala_tb
 UNION
