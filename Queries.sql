@@ -142,13 +142,14 @@ from tripulante_tb
 order by salario DESC
 /
 
+/* ------------------------------------ PRECISA SER REMOVIDO ------------------------------------------ */
 -- 26) Concede permissão publica para todas as operações na view capacidade_voo_tb 
 --erro
 -- e depois revoga permissão.
 grant all on capacidade_voo_tb to public;
 revoke all on capacidade_voo_tb to public;
 /
-
+/*-------------------------------------------------------------------------------------------------------*/
 ------------------------------ PL --------------------------------
 
 -- 1/4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
@@ -160,7 +161,7 @@ begin
     from bagagem_tb
     where bagagem_tb.cpf_pa = cpf;
 
-    --RETURN tot_weight;
+    --print tot_weight;
     dbms_output.put_line('Peso: ' || tot_weight ||'kg');
     
 end peso_total_bagage;
@@ -171,34 +172,35 @@ execute peso_total_bagage('10982770669');
 
 
 
--- 3/10/14) Usando como condição de parada a falta de dados no cursor declarado (cursor_func), o LOOP foi programado para 
-armazenar em uma variável (cpfESalario_func) o CPF e o salário dos funcionários que recebem um salário de 2500.00 ou mais. */
+-- 3/10/14) o LOOP armazena na variável cpf_Salario_trip o CPF e o salário dos tripulantes que recebem um salário de 5000.00 ou mais. 
+-- o LOOP é interrompido quando detectada falta de dados no cursor cursor_func
+
 DECLARE
     
     iterator BINARY_INTEGER := 0;
     trip_cpf tripulante_tb.cpf_pe%TYPE;
     trip_salario tripulante_tb.salario%TYPE;
     TYPE tripInfo IS RECORD (salario tripulante_tb.salario%TYPE, cpf tripulante_tb.cpf_pe%TYPE);
-    TYPE TabelaFunc IS TABLE OF tripInfo INDEX BY BINARY_INTEGER;
-    cpfESalario_func TabelaFunc;
-    CURSOR cursor_func IS SELECT cpf_pe, salario FROM tripulante_tb;
+    TYPE TabelaTrip IS TABLE OF tripInfo INDEX BY BINARY_INTEGER;
+    cpf_Salario_trip TabelaTrip;
+    CURSOR cursor_trip IS SELECT cpf_pe, salario FROM tripulante_tb;
     
 BEGIN
-    DBMS_OUTPUT.Put_line('Funcionários que recebem 2500.00 ou mais');
-    OPEN cursor_func;
+    DBMS_OUTPUT.Put_line('Tripulantes que recebem 5000.00 ou mais');
+    OPEN cursor_trip;
     
         LOOP
-            FETCH cursor_func INTO trip_cpf, trip_salario;
+            FETCH cursor_trip INTO trip_cpf, trip_salario;
             IF trip_salario >= 5000.00 THEN
-                cpfESalario_func(iterator).cpf := trip_cpf;
-                cpfESalario_func(iterator).salario := trip_salario;
-                DBMS_OUTPUT.Put_line(cpfESalario_func(iterator).cpf || ' ' || cpfESalario_func(iterator).salario);
+                cpf_Salario_trip(iterator).cpf := trip_cpf;
+                cpf_Salario_trip(iterator).salario := trip_salario;
+                DBMS_OUTPUT.Put_line(cpfESalario_trip(iterator).cpf || ' ' || cpfESalario_trip(iterator).salario);
                 iterator := iterator+1;
             END IF;
-            EXIT WHEN cursor_func%NOTFOUND;
+            EXIT WHEN cursor_trip%NOTFOUND;
         END LOOP;
 
-    CLOSE cursor_func;
+    CLOSE cursor_trip;
     
 END;
 /
@@ -227,9 +229,7 @@ WHERE cadastro = 2
 
 -- trigger que impede que novos pilotos tenham salario inicial abaixo de 15.000 e que comissários tenham salário inicial inferior a 3.000
 
-<<<<<<< HEAD
 -- Função para saber se um passageiro comprou uma passagem para um determinado voo
-=======
 
 -- 1) usa um record para printar as horas de voo de um piloto
 declare
@@ -267,8 +267,8 @@ END search_cpf;
 /
 EXECUTE search_cpf('71311506578');
 /
---10,13,14-- Consultar o CEP da residência de uma pessoa
 
+--10,13,14-- Consultar o CEP da residência de uma pessoa
 DECLARE
     nome_pe Pessoa_tb.nome%TYPE;
     cpf_pe Pessoa_tb.cpf%TYPE;
@@ -294,8 +294,8 @@ BEGIN
     CLOSE pessoa_nome;
 END;
 /
--- 17) criar um package pra armazenar nossa procedures
 
+-- 17) criar um package pra armazenar nossa procedures
 CREATE OR REPLACE PACKAGE procedures_package
 AS
 
@@ -309,8 +309,7 @@ END procedures_package;
 CREATE OR REPLACE PACKAGE BODY procedures_package
 AS
 
-PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE)
---RETURN bagagem_tb.peso%TYPE   
+PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE)   
 IS
     tot_weight bagagem_tb.peso%TYPE;
 begin
@@ -318,7 +317,7 @@ begin
     from bagagem_tb
     where bagagem_tb.cpf_pa = cpf;
 
-    --RETURN tot_weight;
+    --print tot_weight;
     dbms_output.put_line('Peso: ' || tot_weight ||'kg');
     
 end peso_total_bagage;
@@ -345,8 +344,9 @@ END procedures_package;
 EXECUTE procedures_package.peso_total_bagage('10982770669');
 EXECUTE procedures_package.search_cpf('10982770669');
 /
->>>>>>> f0f457c55038d027af050b970e6ac15b5773b42b
 
+/*------------------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------- CODIGO REPETIDO -------------------------------------------------------------------------------------*/
 -- 1) usa um record para printar as horas de voo de um piloto
 declare
 TYPE horas_de_voo_piloto IS RECORD ( nome pessoa_tb.nome%type, horas number(8));
