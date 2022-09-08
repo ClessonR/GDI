@@ -4,13 +4,13 @@ alter table pessoa_tb RENAME COLUMN idade TO age;
 alter table pessoa_tb RENAME COLUMN age TO idade;
 /
 -- 2. Create index na tabela endereço e na coluna CPF;
+--erro
 CREATE INDEX idx_edc
 ON endereco_tb(CPF);
 /
 
 
 -- 3 & 5) Inserindo linha em COMP AEREA e logo em seguida deletando-a
---erro
 insert into Comp_aerea_tb (cnpj, nome)
     values ('29609139000119', 'malaysia airlines');
 DELETE from Comp_aerea_tb WHERE cnpj = '29609139000119';
@@ -146,9 +146,9 @@ order by salario DESC
 -- 26) Concede permissão publica para todas as operações na view capacidade_voo_tb 
 --erro
 -- e depois revoga permissão.
-grant all on capacidade_voo_tb to public;
-revoke all on capacidade_voo_tb to public;
-/
+--grant all on capacidade_voo_tb to public;
+--revoke all on capacidade_voo_tb to public;
+--/
 /*-------------------------------------------------------------------------------------------------------*/
 ------------------------------ PL --------------------------------
 
@@ -204,7 +204,7 @@ BEGIN
 END;
 /
 
--- trigger para impedir que haja redução no salário de um tripulante
+-- 20)trigger para impedir que haja redução no salário de um tripulante
 CREATE OR REPLACE TRIGGER alt_salario
 BEFORE UPDATE ON tripulante_tb
 FOR EACH ROW
