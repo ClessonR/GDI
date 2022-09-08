@@ -1,23 +1,26 @@
 
 -- 1) Alterando coluna e depois alterando de volta
-alter table pessoa_tb RENAME COLUMN descricao TO description;
-alter table pessoa_tb RENAME COLUMN description TO descricao;
-
+alter table pessoa_tb RENAME COLUMN idade TO age;
+alter table pessoa_tb RENAME COLUMN age TO idade;
+/
 -- 2. Create index na tabela endereço e na coluna CPF;
 CREATE INDEX idx_edc
 ON endereco_tb(CPF);
-
+/
 
 
 -- 3 & 5) Inserindo linha em COMP AEREA e logo em seguida deletando-a
+--erro
 insert into Comp_aerea_tb (cnpj, nome)
     values ('29609139000119', 'malaysia airlines');
 DELETE from Comp_aerea_tb WHERE cnpj = '29609139000119';
+/
 
 -- 4) o local de destino do voo de código 93742 deveria ser Recife em vez de Porto Alegre
 update voo_tb
 set local_chegada = 'Recife'
 WHERE codigo = '93742';
+/
 
 -- 6/8/11) consultar nome, cpf, idade e fidelidade dos Passageiros que residem em Recife ou Rondonópolis
 select P.nome, P.cpf, P.idade, PA.fidelidade
@@ -29,6 +32,7 @@ from pessoa_tb P
     inner join passageiro_tb PA
         on P.cpf = PA.cpf_pe
 where C.cidade in ('Recife', 'Rondonópolis')
+/
 
 -- 7) Exibir nome e cpf dos funcionários que trabalharam nos meses de junho e julho
 select P.nome, P.cpf
@@ -39,6 +43,7 @@ from trabalha_tb T
         on TR.cpf_pe = P.cpf
 where T.data_trabalha between to_date('01/06/2022', 'dd/mm/yyyy') and to_date('30/07/2022', 'dd/mm/yyyy')
 group by (P.nome,P.cpf)
+/
 
 -- 9) Selecina passageiros cujoo nome se inicia pela letra 'M'
 select P.cpf, P.nome, P.idade
@@ -46,6 +51,7 @@ from pessoa_tb P
     inner join passageiro_tb PA
         on P.cpf = PA.cpf_pe
 WHERE nome LIKE 'M%';
+/
 
 -- 12/18) consultar compra(s) com maior percentual de desconto exibindo o ID da compra o percentual do desconto e o nome do comprador
 
@@ -56,6 +62,7 @@ from compra_tb C
     inner join pessoa_tb P
         on PA.cpf_pe = P.cpf
 where porcentagem in (select max(porcentagem) from compra_tb)
+/
 
 -- 10) Selecionar apenas os tripulantes supervisionados
 select P.nome, T.cadastro, T.cargo
@@ -63,22 +70,26 @@ from tripulante_tb T
     inner join pessoa_tb P
         on P.cpf = T.cpf_pe
 where cadastro_supervisor is not null
+/
 
 -- 14) consultar a média de bagagens que uma pessoa carrega
 select avg(tot_bagagem)
 from (select cpf_pa, count(*) as tot_bagagem
 from bagagem_tb
 group by cpf_pa)
+/
 
 -- 16 Mostrar todos os dados dos tripulantes dado que seu cargo é comissário
 SELECT * from pessoa_tb 
 FULL OUTER JOIN tripulante_tb 
 ON pessoa_tb.CPF = tripulante_tb.CPF_PE
 WHERE tripulante_tb.CARGO = 'Comissário'
+/
 
 -- 17 Selecionando o cnpj e o nome de uma companhia aerea baseando-se apenas no seu número;
 SELECT * FROM COMP_AEREA_TB WHERE COMP_AEREA_TB.CNPJ = 
 (SELECT CNPJ_CIA FROM TELEFONE_COMP_AEREA_TB WHERE TELEFONE_COMP_AEREA_TB.contato ='08008871118');
+/
 
 -- 22/15) mostrar a quantidade de aviões que cada companhia aérea possui
 select C.nome as cia_aerea, count(*) as tot_aeronaves
@@ -86,11 +97,12 @@ from aviao_tb A
     inner join comp_aerea_tb C
         on A.cnpj_cia = C.cnpj
 group by C.nome
-
+/
 
 -- 19)Retorna as colunas de todas as pessoas que são tripulantes com cargo de piloto
 SELECT * FROM pessoa_tb
 WHERE cpf = ANY (SELECT cpf_pe FROM tripulante_tb WHERE cargo = 'Piloto');
+/
 
 -- 20)o nomes e cpf dos funcionários cujo salário é maior que o salário de todos os funcionários da gol
 SELECT p.nome, p.cpf from pessoa_tb p, tripulante_tb tt
@@ -98,22 +110,23 @@ SELECT p.nome, p.cpf from pessoa_tb p, tripulante_tb tt
                             inner join trabalha_tb tra on t.cpf_pe = tra.cpf_tri 
                             inner join comp_aerea_tb comp on tra.cnpj_cia = comp.cnpj
                             where comp.nome = 'Gol Airlines');
+/
 
 -- 24) Retorna todos os aviões que estão escalados.
 SELECT id_aviao FROM escala_tb
 UNION
 SELECT aviao_id FROM aviao_tb
+/
 
 -- 22/23) Retorna o cpf de todos os passageiros que já compraram mais de 10.000 em passagens*/
 SELECT cpf_pa, SUM(valor) AS total FROM compra_tb
 GROUP BY cpf_pa
 HAVING SUM(valor) > 10000;
- 
+/
+
 -- 13/25) cria view sobre a lotação de cada voo e dps consulta os voos com a menor lotação
 
-drop view capacidade_voo_tb;
-
-create view capacidade_voo_tb (voo, ocupacao) as
+create or replace view capacidade_voo_tb (voo, ocupacao) as
 select codigo_voo, count(*)
 from passagem_tb
 group by codigo_voo;
@@ -122,17 +135,19 @@ select * from capacidade_voo_tb;
 
 select * from capacidade_voo_tb
 where ocupacao in (select min(ocupacao) from capacidade_voo_tb)
-
+/
 -- 21) exibir informações de cpf, cargo e salário dos tripulantes ordenados por salário 
 select cpf_pe, cargo, salario
 from tripulante_tb
-order by salario DESC 
+order by salario DESC
+/
 
 -- 26) Concede permissão publica para todas as operações na view capacidade_voo_tb 
+--erro
 -- e depois revoga permissão.
 grant all on capacidade_voo_tb to public;
 revoke all on capacidade_voo_tb to public;
-
+/
 
 ------------------------------ PL --------------------------------
 
@@ -147,7 +162,7 @@ begin
     where bagagem_tb.cpf_pa = cpf;
 
     --RETURN tot_weight;
-    dbms_output.put_line(tot_weight);
+    dbms_output.put_line('Peso: ' || tot_weight ||'kg');
     
 end peso_total_bagage;
 /
@@ -204,11 +219,11 @@ ELSIF salario_diff > 0 THEN
     dbms_output.put_line('Salário atualizado com sucesso!'); 
 END IF;
 END;
-
+/
 UPDATE tripulante_tb
 SET salario = 1
 WHERE cadastro = 2
-
+/
 
 -- trigger para impedir que um passageiro leve mais de 40kg de bagagem
 
@@ -229,4 +244,103 @@ begin
     dbms_output.put_line(hvp.nome || ' tem ' || hvp.horas || ' de voo registradas');    
     dbms_output.put_line(hvp.horas);
 end;
+/
 
+-- 7/15/16) Recebe um input e procura ele na tabela de cpf
+CREATE OR REPLACE PROCEDURE search_cpf(cpf_recevied IN Pessoa_tb.cpf%TYPE) 
+IS register pessoa_tb%rowtype;
+BEGIN
+    SELECT *
+    INTO register
+    FROM Pessoa_tb
+    WHERE Pessoa_tb.cpf = cpf_recevied;
+    
+    DBMS_OUTPUT.PUT_LINE ('Nome: ' || register.nome);
+    DBMS_OUTPUT.PUT_LINE ('Idade: ' || register.idade);
+    DBMS_OUTPUT.PUT_LINE ('CPF: ' || register.cpf);
+
+EXCEPTION
+    WHEN no_data_found THEN
+    DBMS_OUTPUT.PUT_LINE ('Essa pessoa não está registrada no nosso banco de dados.');
+END search_cpf;
+/
+EXECUTE search_cpf('71311506578');
+/
+--10,13,14-- Consultar o CEP da residência de uma pessoa
+
+DECLARE
+    nome_pe Pessoa_tb.nome%TYPE;
+    cpf_pe Pessoa_tb.cpf%TYPE;
+    cep_pe endereco_tb.cep%TYPE;
+    
+    CURSOR pessoa_nome IS
+        SELECT nome, cpf
+        FROM Pessoa_tb;
+
+BEGIN
+    OPEN pessoa_nome;
+        LOOP
+            FETCH pessoa_nome INTO nome_pe, cpf_pe;
+            
+            EXIT WHEN pessoa_nome%NOTFOUND;
+            
+            SELECT cep INTO cep_pe
+            FROM endereco_tb
+            WHERE cpf = cpf_pe;
+            
+            DBMS_OUTPUT.PUT_LINE(nome_pe || ' reside no CEP: ' || cep_pe);
+        END LOOP;
+    CLOSE pessoa_nome;
+END;
+/
+-- 17) criar um package pra armazenar nossa procedures
+
+CREATE OR REPLACE PACKAGE procedures_package
+AS
+
+PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE);
+PROCEDURE search_cpf(cpf_recevied IN Pessoa_tb.cpf%TYPE);
+
+END procedures_package;
+/
+--18) Criar o body do package criado
+
+CREATE OR REPLACE PACKAGE BODY procedures_package
+AS
+
+PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE)
+--RETURN bagagem_tb.peso%TYPE   
+IS
+    tot_weight bagagem_tb.peso%TYPE;
+begin
+    select sum(bagagem_tb.peso) into tot_weight
+    from bagagem_tb
+    where bagagem_tb.cpf_pa = cpf;
+
+    --RETURN tot_weight;
+    dbms_output.put_line('Peso: ' || tot_weight ||'kg');
+    
+end peso_total_bagage;
+
+PROCEDURE search_cpf(cpf_recevied IN Pessoa_tb.cpf%TYPE) 
+IS register pessoa_tb%rowtype;
+BEGIN
+    SELECT *
+    INTO register
+    FROM Pessoa_tb
+    WHERE Pessoa_tb.cpf = cpf_recevied;
+    
+    DBMS_OUTPUT.PUT_LINE ('Nome: ' || register.nome);
+    DBMS_OUTPUT.PUT_LINE ('Idade: ' || register.idade);
+    DBMS_OUTPUT.PUT_LINE ('CPF: ' || register.cpf);
+
+EXCEPTION
+    WHEN no_data_found THEN
+    DBMS_OUTPUT.PUT_LINE ('Essa pessoa não está registrada no nosso banco de dados.');
+END search_cpf;
+
+END procedures_package;
+/
+EXECUTE procedures_package.peso_total_bagage('10982770669');
+EXECUTE procedures_package.search_cpf('10982770669');
+/
