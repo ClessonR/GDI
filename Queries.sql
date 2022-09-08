@@ -181,7 +181,8 @@ DECLARE
     trip_cpf tripulante_tb.cpf_pe%TYPE;
     trip_salario tripulante_tb.salario%TYPE;
     TYPE tripInfo IS RECORD (salario tripulante_tb.salario%TYPE, cpf tripulante_tb.cpf_pe%TYPE);
-
+    TYPE TabelaTrip IS TABLE OF tripInfo INDEX BY BINARY_INTEGER;
+    cpf_Salario_trip TabelaTrip;
     CURSOR cursor_trip IS SELECT cpf_pe, salario FROM tripulante_tb;
     
 BEGIN
@@ -193,7 +194,7 @@ BEGIN
             IF trip_salario >= 5000.00 THEN
                 cpf_Salario_trip(iterator).cpf := trip_cpf;
                 cpf_Salario_trip(iterator).salario := trip_salario;
-                DBMS_OUTPUT.Put_line(cpfESalario_trip(iterator).cpf || ' ' || cpfESalario_trip(iterator).salario);
+                DBMS_OUTPUT.Put_line(cpf_Salario_trip(iterator).cpf || ' ' || cpf_Salario_trip(iterator).salario);
                 iterator := iterator+1;
             END IF;
             EXIT WHEN cursor_trip%NOTFOUND;
@@ -203,7 +204,6 @@ BEGIN
     
 END;
 /
-
 -- trigger para impedir que haja redução no salário de um tripulante
 CREATE OR REPLACE TRIGGER alt_salario
 BEFORE UPDATE ON tripulante_tb
