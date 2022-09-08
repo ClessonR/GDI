@@ -200,7 +200,8 @@ BEGIN
 salario_diff  := :new.salario  - :old.salario;
 IF salario_diff < 0 THEN
     RAISE_APPLICATION_ERROR(-20101,'O salário de um tripulante não pode sofrer redução.');
-    RETURN;
+ELSIF salario_diff > 0 THEN
+    dbms_output.put_line('Salário atualizado com sucesso!'); 
 END IF;
 END;
 
