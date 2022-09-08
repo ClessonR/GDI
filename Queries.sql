@@ -33,7 +33,7 @@ from trabalha_tb T
 where T.data_trabalha between to_date('01/06/2022', 'dd/mm/yyyy') and to_date('30/07/2022', 'dd/mm/yyyy')
 group by (P.nome,P.cpf)
 
--- 9) Selecina passageiros cujoo nome se inicia pela letra 'M'
+-- 9) Selecina passageiros cujo nome se inicia pela letra 'M'
 select P.cpf, P.nome, P.idade
 from pessoa_tb P
     inner join passageiro_tb PA
@@ -98,9 +98,8 @@ revoke all on capacidade_voo_tb to public;
 
 ------------------------------ PL --------------------------------
 
--- Função para calcular a soma do peso de todas as bagagens que um passageiro possui
-CREATE OR REPLACE PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE)
---RETURN bagagem_tb.peso%TYPE   
+-- 1/4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
+CREATE OR REPLACE PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE) 
 IS
     tot_weight bagagem_tb.peso%TYPE;
 begin
@@ -108,7 +107,6 @@ begin
     from bagagem_tb
     where bagagem_tb.cpf_pa = cpf;
 
-    --RETURN tot_weight;
     dbms_output.put_line(tot_weight);
     
 end peso_total_bagage;
@@ -119,8 +117,7 @@ execute peso_total_bagage('10982770669');
 
 
 
-/*10. LOOP EXIT WHEN - comando de repetição com critério de saída definido
-Descrição: Usando como condição de parada a falta de dados no cursor declarado (cursor_func), o LOOP foi programado para 
+-- 3/10/14) Usando como condição de parada a falta de dados no cursor declarado (cursor_func), o LOOP foi programado para 
 armazenar em uma variável (cpfESalario_func) o CPF e o salário dos funcionários que recebem um salário de 2500.00 ou mais. */
 DECLARE
     
@@ -158,3 +155,4 @@ END;
 
 -- trigger que impede que novos pilotos tenham salario inicial abaixo de 15.000 e que comissários tenham salário inicial inferior a 3.000
 
+-- Função para saber se um passageiro comprou uma passagem para um determinado voo
