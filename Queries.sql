@@ -184,6 +184,23 @@ END;
 /
 
 -- trigger para impedir que haja redução no salário de um tripulante
+CREATE OR REPLACE TRIGGER alt_salario
+BEFORE UPDATE ON tripulante_tb
+FOR EACH ROW
+DECLARE
+    salario_diff number;
+BEGIN
+salario_diff  := :new.salario  - :old.salario;
+IF salario_diff < 0 THEN
+    RAISE_APPLICATION_ERROR(-20101,'O salário de um tripulante não pode sofrer redução.');
+    RETURN;
+END IF;
+END;
+
+UPDATE tripulante_tb
+SET salario = 1
+WHERE cadastro = 2
+
 
 -- trigger para impedir que um passageiro leve mais de 40kg de bagagem
 
