@@ -152,7 +152,7 @@ order by salario DESC
 /*-------------------------------------------------------------------------------------------------------*/
 ------------------------------ PL --------------------------------
 
--- 1/4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
+-- 4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
 CREATE OR REPLACE PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE) 
 IS
     tot_weight bagagem_tb.peso%TYPE;
@@ -241,7 +241,7 @@ begin
         inner join escala_tb e on v.codigo = e.codigo_voo
         where e.cpf_tri = '06059026150';
         
-    dbms_output.put_line(hvp.nome || ' tem ' || hvp.horas || ' de voo registradas');    
+    dbms_output.put_line(hvp.nome || ' tem ' || hvp.horas || ' horas de voo registradas');    
     dbms_output.put_line(hvp.horas);
 end;
 /
