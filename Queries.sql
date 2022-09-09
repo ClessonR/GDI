@@ -184,7 +184,7 @@ BEGIN
             END IF;
             EXIT WHEN cursor_func%NOTFOUND;
         END LOOP;
-
+        
     CLOSE cursor_func;
     
 END;
@@ -210,7 +210,33 @@ SET salario = 1
 WHERE cadastro = 2
 
 
--- trigger para impedir que um passageiro leve mais de 40kg de bagagem
+-- trigger que transfere para a tabela log_bagagem todas as movimentações que forem feitas na tabela bagagem_tb
+CREATE TABLE log_bagagem(
+    tipo_de_acao VARCHAR2(15),
+    hora TIMESTAMP
+);
+
+CREATE OR REPLACE TRIGGER controle_bagagem
+AFTER INSERT OR UPDATE OR DELETE ON bagagem_tb
+BEGIN
+    IF (INSERTING) THEN
+        INSERT INTO log_bagagem(tipo_de_acao, hora)
+            VALUES ('INSERCAO', SYSDATE);
+    
+    ELSIF (UPDATING) THEN
+        INSERT INTO log_bagagem(tipo_de_acao, hora)
+            VALUES ('ATUALIZACAO', SYSDATE);
+    
+    ELSIF (DELETING) THEN
+        INSERT INTO log_bagagem(tipo_de_acao, hora)
+            VALUES ('REMOCAO', SYSDATE);
+    
+    END IF;
+END;
+
+UPDATE bagagem_tb
+SET peso = 35
+WHERE cpf_pa = '18683894487'
 
 -- trigger que impede que novos pilotos tenham salario inicial abaixo de 15.000 e que comissários tenham salário inicial inferior a 3.000
 
