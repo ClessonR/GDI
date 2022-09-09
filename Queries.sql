@@ -1,3 +1,4 @@
+-- SQL
 
 -- 1) Alterando coluna e depois alterando de volta
 alter table pessoa_tb RENAME COLUMN idade TO age;
@@ -6,7 +7,7 @@ alter table pessoa_tb RENAME COLUMN age TO idade;
 -- 2. Create index na tabela endereço e na coluna CPF;
 --erro
 CREATE INDEX idx_edc
-ON endereco_tb(CPF);
+ON endereco_tb(numero);
 /
 
 
@@ -194,7 +195,7 @@ BEGIN
         contador := contador - 1;
     END LOOP;
 END;
-
+/
 
 -- 12 FOR LOOP para descobrir quanto cada passageiro pagou em cada passagem.
 DECLARE
@@ -210,6 +211,8 @@ BEGIN
     dbms_output.put_line( 'O cliente de CPF:' ||r_product.CPF_PA  ||' pagou R$' ||  r_product.VALOR || ' com ' || r_product.PORCENTAGEM || '% de desconto.');
   END LOOP;
 END;
+/
+
 -- 3/10/14) o LOOP armazena na variável cpf_Salario_trip o CPF e o salário dos tripulantes que recebem um salário de 5000.00 ou mais. 
 -- o LOOP é interrompido quando detectada falta de dados no cursor cursor_func
 
@@ -219,7 +222,8 @@ DECLARE
     trip_cpf tripulante_tb.cpf_pe%TYPE;
     trip_salario tripulante_tb.salario%TYPE;
     TYPE tripInfo IS RECORD (salario tripulante_tb.salario%TYPE, cpf tripulante_tb.cpf_pe%TYPE);
-
+    TYPE TabelaTrip IS TABLE OF tripInfo INDEX BY BINARY_INTEGER;
+    cpf_Salario_trip TabelaTrip;
     CURSOR cursor_trip IS SELECT cpf_pe, salario FROM tripulante_tb;
     
 BEGIN
@@ -231,13 +235,13 @@ BEGIN
             IF trip_salario >= 5000.00 THEN
                 cpf_Salario_trip(iterator).cpf := trip_cpf;
                 cpf_Salario_trip(iterator).salario := trip_salario;
-                DBMS_OUTPUT.Put_line(cpfESalario_trip(iterator).cpf || ' ' || cpfESalario_trip(iterator).salario);
+                DBMS_OUTPUT.Put_line(cpf_Salario_trip(iterator).cpf || ' ' || cpf_Salario_trip(iterator).salario);
                 iterator := iterator+1;
             END IF;
             EXIT WHEN cursor_trip%NOTFOUND;
         END LOOP;
-    CLOSE cursor_func;
 
+    CLOSE cursor_trip;
     
 END;
 /
@@ -285,11 +289,12 @@ BEGIN
     
     END IF;
 END;
+/
 
 UPDATE bagagem_tb
 SET peso = 35
 WHERE cpf_pa = '18683894487'
-
+/
 -- trigger que impede que novos pilotos tenham salario inicial abaixo de 15.000 e que comissários tenham salário inicial inferior a 3.000
 
 -- Função para saber se um passageiro comprou uma passagem para um determinado voo
@@ -331,6 +336,7 @@ declare
 begin
     dbms_output.put_line(inss_calc(salario));
 end;
+/
 
 -- 7/15/16) Recebe um input e procura ele na tabela de cpf
 CREATE OR REPLACE PROCEDURE search_cpf(cpf_recevied IN Pessoa_tb.cpf%TYPE) 
