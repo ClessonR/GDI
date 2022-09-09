@@ -169,9 +169,47 @@ end peso_total_bagage;
 execute peso_total_bagage('10982770669');
 /
 
+-- 11) WHILE LOOP para mostrar o nome, cpf e número de cadastro de cada tripulante.
+DECLARE
+cpf_piloto tripulante_tb.cpf_pe%TYPE;
+cadastro tripulante_tb.cadastro%TYPE;
+nome pessoa_tb.nome%TYPE;
+contador NUMBER;
+
+BEGIN
+    SELECT COUNT(*) INTO contador
+    FROM tripulante_tb;
+    
+    WHILE (contador > 0) LOOP
+    
+        SELECT CPF_PE INTO cpf_piloto
+        FROM tripulante_tb
+        WHERE cadastro = contador;
+        
+        SELECT pessoa_tb.nome INTO nome
+        FROM pessoa_tb
+        WHERE cpf = cpf_piloto;
+    
+        DBMS_OUTPUT.PUT_LINE ('O tripulante '||nome||' de CPF:'|| cpf_piloto || ' possui o cadastro número '|| contador);
+        contador := contador - 1;
+    END LOOP;
+END;
 
 
-
+-- 12 FOR LOOP para descobrir quanto cada passageiro pagou em cada passagem.
+DECLARE
+  CURSOR c_product
+  IS
+    SELECT 
+        CPF_PA, VALOR, PORCENTAGEM
+    FROM 
+        Compra_tb;
+BEGIN
+  FOR r_product IN c_product
+  LOOP
+    dbms_output.put_line( 'O cliente de CPF:' ||r_product.CPF_PA  ||' pagou R$' ||  r_product.VALOR || ' com ' || r_product.PORCENTAGEM || '% de desconto.');
+  END LOOP;
+END;
 -- 3/10/14) o LOOP armazena na variável cpf_Salario_trip o CPF e o salário dos tripulantes que recebem um salário de 5000.00 ou mais. 
 -- o LOOP é interrompido quando detectada falta de dados no cursor cursor_func
 
