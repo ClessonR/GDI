@@ -245,6 +245,28 @@ begin
     dbms_output.put_line(hvp.horas);
 end;
 /
+-- 5/9)cria uma funcao que calcula e retorna o valor inss
+create or replace function inss_calc(salario in tripulante_tb.salario%type )
+    return number is inss number;
+begin
+    --salario number(8) := 3000;
+    case
+        when (salario > 1212 and salario < 2427) then
+            inss := (0.075 * 1212) + (0.09 * (salario - 1212));
+        when (salario > 2427 and salario < 3641) then
+            inss := (0.075 * 1212) + (2427 - 1212)*0.09 + (salario - 2427)*0.12;
+        when (salario > 3641 and salario < 7087) then
+            inss := (0.075 * 1212) + (2427 - 1212)*0.09 + (7087 - 3641)*0.12  + (salario - 3641)*0.14;
+    end case;
+    return inss;
+end;
+/
+
+declare 
+    salario tripulante_tb.salario%type := 3000;
+begin
+    dbms_output.put_line(inss_calc(salario));
+end;
 
 -- 7/15/16) Recebe um input e procura ele na tabela de cpf
 CREATE OR REPLACE PROCEDURE search_cpf(cpf_recevied IN Pessoa_tb.cpf%TYPE) 
