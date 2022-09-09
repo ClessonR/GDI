@@ -143,14 +143,6 @@ from tripulante_tb
 order by salario DESC
 /
 
-/* ------------------------------------ PRECISA SER REMOVIDO ------------------------------------------ */
--- 26) Concede permissão publica para todas as operações na view capacidade_voo_tb 
---erro
--- e depois revoga permissão.
---grant all on capacidade_voo_tb to public;
---revoke all on capacidade_voo_tb to public;
---/
-/*-------------------------------------------------------------------------------------------------------*/
 ------------------------------ PL --------------------------------
 
 -- 4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
@@ -266,12 +258,13 @@ SET salario = 1
 WHERE cadastro = 2
 /
 
--- trigger que transfere para a tabela log_bagagem todas as movimentações que forem feitas na tabela bagagem_tb
+-- 2)trigger que transfere para a tabela log_bagagem todas as movimentações que forem feitas na tabela bagagem_tb
 CREATE TABLE log_bagagem(
     tipo_de_acao VARCHAR2(15),
     hora TIMESTAMP
 );
 
+-- 19)trigger de bagagem
 CREATE OR REPLACE TRIGGER controle_bagagem
 AFTER INSERT OR UPDATE OR DELETE ON bagagem_tb
 BEGIN
@@ -295,9 +288,6 @@ UPDATE bagagem_tb
 SET peso = 35
 WHERE cpf_pa = '18683894487'
 /
--- trigger que impede que novos pilotos tenham salario inicial abaixo de 15.000 e que comissários tenham salário inicial inferior a 3.000
-
--- Função para saber se um passageiro comprou uma passagem para um determinado voo
 
 -- 1) usa um record para printar as horas de voo de um piloto
 declare
