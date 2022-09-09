@@ -152,7 +152,7 @@ order by salario DESC
 /*-------------------------------------------------------------------------------------------------------*/
 ------------------------------ PL --------------------------------
 
--- 1/4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
+-- 4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
 CREATE OR REPLACE PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE) 
 IS
     tot_weight bagagem_tb.peso%TYPE;
@@ -279,10 +279,32 @@ begin
         inner join escala_tb e on v.codigo = e.codigo_voo
         where e.cpf_tri = '06059026150';
         
-    dbms_output.put_line(hvp.nome || ' tem ' || hvp.horas || ' de voo registradas');    
+    dbms_output.put_line(hvp.nome || ' tem ' || hvp.horas || ' horas de voo registradas');    
     dbms_output.put_line(hvp.horas);
 end;
 /
+-- 5/9)cria uma funcao que calcula e retorna o valor inss
+create or replace function inss_calc(salario in tripulante_tb.salario%type )
+    return number is inss number;
+begin
+    --salario number(8) := 3000;
+    case
+        when (salario > 1212 and salario < 2427) then
+            inss := (0.075 * 1212) + (0.09 * (salario - 1212));
+        when (salario > 2427 and salario < 3641) then
+            inss := (0.075 * 1212) + (2427 - 1212)*0.09 + (salario - 2427)*0.12;
+        when (salario > 3641 and salario < 7087) then
+            inss := (0.075 * 1212) + (2427 - 1212)*0.09 + (7087 - 3641)*0.12  + (salario - 3641)*0.14;
+    end case;
+    return inss;
+end;
+/
+
+declare 
+    salario tripulante_tb.salario%type := 3000;
+begin
+    dbms_output.put_line(inss_calc(salario));
+end;
 
 -- 7/15/16) Recebe um input e procura ele na tabela de cpf
 CREATE OR REPLACE PROCEDURE search_cpf(cpf_recevied IN Pessoa_tb.cpf%TYPE) 
@@ -305,7 +327,7 @@ END search_cpf;
 EXECUTE search_cpf('71311506578');
 /
 
---10,13,14-- Consultar o CEP da residência de uma pessoa
+--10,13,14-- Consultar o CEP da residência devarias pessoa
 DECLARE
     nome_pe Pessoa_tb.nome%TYPE;
     cpf_pe Pessoa_tb.cpf%TYPE;
