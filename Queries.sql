@@ -289,7 +289,7 @@ END search_cpf;
 EXECUTE search_cpf('71311506578');
 /
 
---10,13,14-- Consultar o CEP da residência de uma pessoa
+--10,13,14-- Consultar o CEP da residência devarias pessoa
 DECLARE
     nome_pe Pessoa_tb.nome%TYPE;
     cpf_pe Pessoa_tb.cpf%TYPE;
