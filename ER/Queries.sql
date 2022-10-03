@@ -237,6 +237,7 @@ BEGIN
     
 END;
 /
+-- trigger para impedir que haja redução no salário de um tripulante
 
 -- 20)trigger para impedir que haja redução no salário de um tripulante
 CREATE OR REPLACE TRIGGER alt_salario
