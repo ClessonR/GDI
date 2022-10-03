@@ -1,16 +1,17 @@
+-- SQL
 
 -- 1) Alterando coluna e depois alterando de volta
 alter table pessoa_tb RENAME COLUMN idade TO age;
 alter table pessoa_tb RENAME COLUMN age TO idade;
 /
 -- 2. Create index na tabela endereço e na coluna CPF;
+--erro
 CREATE INDEX idx_edc
-ON endereco_tb(CPF);
+ON endereco_tb(numero);
 /
 
 
 -- 3 & 5) Inserindo linha em COMP AEREA e logo em seguida deletando-a
---erro
 insert into Comp_aerea_tb (cnpj, nome)
     values ('29609139000119', 'malaysia airlines');
 DELETE from Comp_aerea_tb WHERE cnpj = '29609139000119';
@@ -142,17 +143,9 @@ from tripulante_tb
 order by salario DESC
 /
 
-/* ------------------------------------ PRECISA SER REMOVIDO ------------------------------------------ */
--- 26) Concede permissão publica para todas as operações na view capacidade_voo_tb 
---erro
--- e depois revoga permissão.
-grant all on capacidade_voo_tb to public;
-revoke all on capacidade_voo_tb to public;
-/
-/*-------------------------------------------------------------------------------------------------------*/
 ------------------------------ PL --------------------------------
 
--- 1/4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
+-- 4/6) Procedimento que calcula a soma do peso de todas as bagagens que um passageiro possui
 CREATE OR REPLACE PROCEDURE peso_total_bagage (cpf bagagem_tb.cpf_pa%TYPE) 
 IS
     tot_weight bagagem_tb.peso%TYPE;
@@ -169,8 +162,48 @@ end peso_total_bagage;
 execute peso_total_bagage('10982770669');
 /
 
+-- 11) WHILE LOOP para mostrar o nome, cpf e número de cadastro de cada tripulante.
+DECLARE
+cpf_piloto tripulante_tb.cpf_pe%TYPE;
+cadastro tripulante_tb.cadastro%TYPE;
+nome pessoa_tb.nome%TYPE;
+contador NUMBER;
 
+BEGIN
+    SELECT COUNT(*) INTO contador
+    FROM tripulante_tb;
+    
+    WHILE (contador > 0) LOOP
+    
+        SELECT CPF_PE INTO cpf_piloto
+        FROM tripulante_tb
+        WHERE cadastro = contador;
+        
+        SELECT pessoa_tb.nome INTO nome
+        FROM pessoa_tb
+        WHERE cpf = cpf_piloto;
+    
+        DBMS_OUTPUT.PUT_LINE ('O tripulante '||nome||' de CPF:'|| cpf_piloto || ' possui o cadastro número '|| contador);
+        contador := contador - 1;
+    END LOOP;
+END;
+/
 
+-- 12 FOR LOOP para descobrir quanto cada passageiro pagou em cada passagem.
+DECLARE
+  CURSOR c_product
+  IS
+    SELECT 
+        CPF_PA, VALOR, PORCENTAGEM
+    FROM 
+        Compra_tb;
+BEGIN
+  FOR r_product IN c_product
+  LOOP
+    dbms_output.put_line( 'O cliente de CPF:' ||r_product.CPF_PA  ||' pagou R$' ||  r_product.VALOR || ' com ' || r_product.PORCENTAGEM || '% de desconto.');
+  END LOOP;
+END;
+/
 
 -- 3/10/14) o LOOP armazena na variável cpf_Salario_trip o CPF e o salário dos tripulantes que recebem um salário de 5000.00 ou mais. 
 -- o LOOP é interrompido quando detectada falta de dados no cursor cursor_func
@@ -205,6 +238,8 @@ BEGIN
 END;
 /
 -- trigger para impedir que haja redução no salário de um tripulante
+
+-- 20)trigger para impedir que haja redução no salário de um tripulante
 CREATE OR REPLACE TRIGGER alt_salario
 BEFORE UPDATE ON tripulante_tb
 FOR EACH ROW
@@ -224,11 +259,36 @@ SET salario = 1
 WHERE cadastro = 2
 /
 
--- trigger para impedir que um passageiro leve mais de 40kg de bagagem
+-- 2)trigger que transfere para a tabela log_bagagem todas as movimentações que forem feitas na tabela bagagem_tb
+CREATE TABLE log_bagagem(
+    tipo_de_acao VARCHAR2(15),
+    hora TIMESTAMP
+);
 
--- trigger que impede que novos pilotos tenham salario inicial abaixo de 15.000 e que comissários tenham salário inicial inferior a 3.000
+-- 19)trigger de bagagem
+CREATE OR REPLACE TRIGGER controle_bagagem
+AFTER INSERT OR UPDATE OR DELETE ON bagagem_tb
+BEGIN
+    IF (INSERTING) THEN
+        INSERT INTO log_bagagem(tipo_de_acao, hora)
+            VALUES ('INSERCAO', SYSDATE);
+    
+    ELSIF (UPDATING) THEN
+        INSERT INTO log_bagagem(tipo_de_acao, hora)
+            VALUES ('ATUALIZACAO', SYSDATE);
+    
+    ELSIF (DELETING) THEN
+        INSERT INTO log_bagagem(tipo_de_acao, hora)
+            VALUES ('REMOCAO', SYSDATE);
+    
+    END IF;
+END;
+/
 
--- Função para saber se um passageiro comprou uma passagem para um determinado voo
+UPDATE bagagem_tb
+SET peso = 35
+WHERE cpf_pa = '18683894487'
+/
 
 -- 1) usa um record para printar as horas de voo de um piloto
 declare
@@ -241,8 +301,31 @@ begin
         inner join escala_tb e on v.codigo = e.codigo_voo
         where e.cpf_tri = '06059026150';
         
-    dbms_output.put_line(hvp.nome || ' tem ' || hvp.horas || ' de voo registradas');    
+    dbms_output.put_line(hvp.nome || ' tem ' || hvp.horas || ' horas de voo registradas');    
     dbms_output.put_line(hvp.horas);
+end;
+/
+-- 5/9)cria uma funcao que calcula e retorna o valor inss
+create or replace function inss_calc(salario in tripulante_tb.salario%type )
+    return number is inss number;
+begin
+    --salario number(8) := 3000;
+    case
+        when (salario > 1212 and salario < 2427) then
+            inss := (0.075 * 1212) + (0.09 * (salario - 1212));
+        when (salario > 2427 and salario < 3641) then
+            inss := (0.075 * 1212) + (2427 - 1212)*0.09 + (salario - 2427)*0.12;
+        when (salario > 3641 and salario < 7087) then
+            inss := (0.075 * 1212) + (2427 - 1212)*0.09 + (7087 - 3641)*0.12  + (salario - 3641)*0.14;
+    end case;
+    return inss;
+end;
+/
+
+declare 
+    salario tripulante_tb.salario%type := 3000;
+begin
+    dbms_output.put_line(inss_calc(salario));
 end;
 /
 
@@ -267,7 +350,7 @@ END search_cpf;
 EXECUTE search_cpf('71311506578');
 /
 
---10,13,14-- Consultar o CEP da residência de uma pessoa
+--10,13,14-- Consultar o CEP da residência devarias pessoa
 DECLARE
     nome_pe Pessoa_tb.nome%TYPE;
     cpf_pe Pessoa_tb.cpf%TYPE;
