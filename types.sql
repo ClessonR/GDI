@@ -13,31 +13,30 @@ CREATE OR REPLACE TYPE tp_fone_pessoa AS OBJECT(
 );
 /
 
-CREATE OR REPLACE TYPE tp_fone_pessoa_array AS VARRAY(4) OF tp_fone;
+CREATE OR REPLACE TYPE tp_fone_pessoa_array AS VARRAY(4) OF tp_fone_pessoa;
 /
 
 CREATE OR REPLACE TYPE tp_pessoa AS OBJECT(
     nome varchar2(20),
     cpf varchar2(11),
-    dt_nascimento date,
-
-    telefones tp_fone_pessoa_array,
-    endereco tp_endereco
-)NOT FINAL  NOT INSTANTIABLE ;
+    idade integer,
+    telefones ref tp_fone_pessoa,
+    endereco ref tp_endereco
+)NOT FINAL  NOT INSTANTIABLE;
 /
 
 -------- PASSAGEIRO ----------------------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_pasageiro UNDER tp_pessoa(
-    fidelidade char(1)
+    fidelidade integer
 );
 /
 
 -------- TRIPULANTE ----------------------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_tripulante UNDER tp_pessoa(
-    cargo varchar2()
-    cadastro integer UNIQUE
+    cargo varchar2(20),
+    cadastro integer,
     salario number(8,2)
 
 );
@@ -55,7 +54,7 @@ CREATE OR REPLACE TYPE tp_bagagem AS OBJECT(
 
 CREATE OR REPLACE TYPE tp_passagem AS OBJECT(
     passagem_id varchar2(6), 
-    assento varchar2(10),
+    assento varchar2(10)
 );
 /
 ----- VOO ----------------------------------------------
@@ -84,13 +83,13 @@ CREATE OR REPLACE TYPE tp_fone_cia AS OBJECT(
 );
 /
 
-CREATE OR REPLACE TYPE tp_fone_cia_array AS VARRAY(15) OF tp_fone;
+CREATE OR REPLACE TYPE tp_fone_cia_array AS VARRAY(15) OF tp_fone_cia;
 /
 
 CREATE OR REPLACE TYPE tp_cia_aerea AS OBJECT(
     cnpj varchar2(14), 
     nome varchar2(30),
-    telefones tp_fone_cia_array,
+    telefones ref tp_fone_cia
 );
 /
 
