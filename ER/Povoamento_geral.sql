@@ -496,31 +496,31 @@ insert into Tripulante_tb (cpf_pe,cadastro,cargo,salario,cadastro_supervisor) --
 ----Passageiro
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('18683894487', 0);
+    values ('18683894487', 0); -- guga
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('49152142140', 1);
+    values ('49152142140', 1); -- guga
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('45238400756', 1);
+    values ('45238400756', 1); -- guga
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('69444744507', 1);
+    values ('69444744507', 1); -- van van
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('00853954550', 1);
+    values ('00853954550', 1); -- van van
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('71518987702', 1);
+    values ('71518987702', 1); -- van van
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('40681591064', 1);
+    values ('40681591064', 1); -- guga
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('70740420801', 0);
+    values ('70740420801', 0); -- guga
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('71311506578', 1);
+    values ('71311506578', 1);--
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
     values ('44527288989', 1);
@@ -547,25 +547,25 @@ insert into Passageiro_tb (cpf_pe, fidelidade)
     values ('14121741633', 1);
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('34988775267', 1);
+    values ('34988775267', 1);--
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('10982770669', 0);
+    values ('10982770669', 0); -- guga
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('98946747552', 1);
+    values ('98946747552', 1); --
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('27901161809', 1);
+    values ('27901161809', 1);--
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('11096112183', 1);
+    values ('11096112183', 1); -- Michel
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('78860429560', 0);
+    values ('78860429560', 0); -- Michel
 
 insert into Passageiro_tb (cpf_pe, fidelidade)
-    values ('69334029676', 1);
+    values ('69334029676', 1); -- Michel
 
 ----Bagagem
 
