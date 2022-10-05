@@ -11,11 +11,10 @@ CREATE TABLE tb_passageiro of tp_passageiro(
     idade NOT NULL,
     telefones NOT NULL,
     endereco NOT NULL,
-    fidelidade NOT NULL CHECK(fidelidade == 1 OR fidelidade == 0)
-) NESTED TABLE bagagem STORE AS bagagem_passageiro, NESTED TABLE lista_compras AS compra_passagens (NESTED TABLE lista_passagens_c STORE AS passagens_pasageiro);
+    fidelidade NOT NULL CHECK(fidelidade = 1 OR fidelidade = 0)
+) NESTED TABLE lista_bagagens STORE AS bagagem_passageiro, NESTED TABLE lista_compras STORE AS compra_passagens (NESTED TABLE lista_passagens STORE AS passagens_pasageiro);
  
 /
-
 CREATE TABLE tb_tripulante OF tp_tripulante(
     cpf PRIMARY KEY, 
     nome NOT NULL,
@@ -32,14 +31,16 @@ CREATE TABLE tb_tripulante OF tp_tripulante(
 CREATE TABLE tb_cia_aerea OF tp_cia_aerea(
     cnpj PRIMARY KEY,
     nome NOT NULL
-) NESTED TABLE lista_avioes STORE AS avioes_cia;
+);
 /
 
-/*CREATE TABLE tb_aviao OF tp_aviao(
-    aviao_id PRIMARY KEY
-    tipo NOT NULL
-)
-/*/
+CREATE TABLE tb_aviao OF tp_aviao(
+    aviao_id PRIMARY KEY,
+    tipo NOT NULL,
+    cia_aerea WITH ROWID REFERENCES tb_cia_aerea NOT NULL
+);
+/
+
 
 CREATE TABLE tb_voo OF tp_voo (
     codigo PRIMARY KEY,
@@ -72,7 +73,7 @@ CREATE TABLE tb_trabalha OF tp_trabalha (
 
 CREATE TABLE tb_escala OF tp_escala(
     voo WITH ROWID REFERENCES tb_voo NOT NULL,
-    --aviao WITH ROWID REFERENCES tb_aviao NOT NULL,'
+    aviao WITH ROWID REFERENCES tb_aviao NOT NULL,
     tripulante WITH ROWID REFERENCES tb_tripulante NOT NULL
 );
 /

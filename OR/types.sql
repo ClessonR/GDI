@@ -135,6 +135,14 @@ CREATE OR REPLACE TYPE tp_lista_bagagem AS TABLE OF tp_bagagem;
 ALTER TYPE tp_passageiro ADD ATTRIBUTE (lista_bagagens tp_lista_bagagem) CASCADE;
 /
 
+-------------- COMPANHIA AEREA ---------------------------------------
+
+CREATE OR REPLACE TYPE tp_cia_aerea AS OBJECT(
+    cnpj varchar2(14), 
+    nome varchar2(30)
+);
+/
+
 ----- PASSAGEM ----------------------------------------
 
 CREATE OR REPLACE TYPE tp_passagem AS OBJECT(
@@ -148,27 +156,33 @@ CREATE OR REPLACE TYPE tp_voo AS OBJECT(
     codigo integer, 
     portao varchar2(3),
     local_partida varchar2(100), 
-    local_chegada varchar2(100)  
+    local_chegada varchar2(100) ,
+    CONSTRUCTOR FUNCTION tp_voo (x1 tp_voo) RETURN SELF AS RESULT
 );
+/
+
+CREATE OR REPLACE TYPE BODY tp_voo AS
+    CONSTRUCTOR FUNCTION tp_gerente (x1 tp_voo) RETURN SELF AS RESULT IS
+    BEGIN
+        codigo := x1.codigo; 
+        portao := x1.portao;
+        local_partida := x1.local_partida; 
+        local_chegada := x1.local_chegada; 
+        RETURN; 
+    END;
+END;
 /
 
 ---------- AVIÃO --------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_aviao AS OBJECT(
     aviao_id varchar2(10),  
-    tipo varchar2(100)
-    CONSTRUCTOR FUNCTION tp_aviao (x1 tp_aviao) RETURN SELF AS RESULT
+    tipo varchar2(100),
+    cia_aerea REF tp_cia_aerea
+    
 );
 /
 
-CREATE OR REPLACE TYPE BODY tp_aviao AS
-    CONSTRUCTOR FUNCTION tp_gerente (x1 tp_aviao) RETURN SELF AS RESULT IS
-    BEGIN
-        aviao_id := x1.aviao_id; 
-        tipo := x1.tipo; 
-        RETURN; 
-    END;
-END;
 ---------- ESCALA --------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_escala AS OBJECT (
@@ -178,20 +192,12 @@ CREATE OR REPLACE TYPE tp_escala AS OBJECT (
 );
 /
 
--------------- COMPANHIA AEREA ---------------------------------------
+--------- COLOCANDO A LISTA DE PASSAGEM EM CADA VOO --------------------
 
-CREATE OR REPLACE TYPE tp_cia_aerea AS OBJECT(
-    cnpj varchar2(14), 
-    nome varchar2(30)
-);
+CREATE OR REPLACE TYPE tp_lista_passagem AS TABLE OF tp_passagem;
 /
 
----------- COLOCANDO A LISTA DE AVIÕES DE CADA COMPANHIA AEREA ---------------
-
-CREATE TYPE tp_lista_aviao AS TABLE OF tp_aviao;
-/
-
-ALTER TYPE tp_cia_aerea ADD ATTRIBUTE (lista_avioes tp_lista_aviao) CASCADE;
+ALTER TYPE tp_voo ADD ATTRIBUTE (lista_passagens tp_lista_passagem) CASCADE;
 /
 
 --------------------------------- TIPO COMPRA --------------------------
@@ -206,15 +212,10 @@ CREATE OR REPLACE TYPE tp_compra AS OBJECT(
 ALTER TYPE tp_compra ADD ATTRIBUTE (lista_passagens tp_lista_passagem) CASCADE;
 /
 
-ALTER TYPE tp_compra ADD ATTRIBUTE (lista_passagens_c tp_lista_passagem) CASCADE;
-/
-
---------------------- COLOCANDO A Compra EM Passageiro ----------------------s
-
 CREATE OR REPLACE TYPE tp_lista_compra AS TABLE OF tp_compra;
 /
 
-ALTER TYPE tp_passageiro ADD ATTRIBUTE (lista_compras tp_lista_compra);
+ALTER TYPE tp_passageiro ADD ATTRIBUTE (lista_compras tp_lista_compra); -- coloca a lista de compras em passageiro
 /
 
 
