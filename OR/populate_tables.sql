@@ -195,7 +195,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('48927017404')),
         tp_endereco('88311710', 'Rua Cardeal Arcoverde', '811', 'Campo Grande'),
         1,
-        NULL
+        tp_lista_bagagem (tp_bagagem('1', 10))
     )    
 );
 /
@@ -225,7 +225,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('66929698631')),
         tp_endereco('76808221', 'Rua Sport Recife', '087', 'Recife'),
         0,
-        NULL
+        tp_lista_bagagem (tp_bagagem('1', 10), tp_bagagem('2', 22))
     )    
 );
 /
@@ -255,7 +255,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('97938381573')),
         tp_endereco('57072790', 'Avenida Catarina Madureira', '130', 'Macapá'),
         1,
-        NULL
+       tp_lista_bagagem (tp_bagagem('1', 5))
     )    
 );
 /
@@ -285,7 +285,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('89922461832')),
         tp_endereco('21941210', 'Rua Arauana', '780', 'Rio de Janeiro'),
         0,
-        NULL
+        tp_lista_bagagem (tp_bagagem('13', 2), tp_bagagem('21', 10), tp_bagagem('1', 15))
     )    
 );
 /
@@ -315,7 +315,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('88925856576')),
         tp_endereco('45055788', 'Rua Otávio Sebastião', '575', 'Oficinas'),
         1,
-        NULL
+        tp_lista_bagagem (tp_bagagem('1', 5))
     )    
 );
 /
@@ -345,7 +345,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('849333657')),
         tp_endereco('59233454', 'Muro Verde', '11', 'Palmas'),
         0,
-        NULL
+        tp_lista_bagagem (tp_bagagem('1', 32), tp_bagagem('7', 13))
     )    
 );
 /
@@ -389,7 +389,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('783875547'),
             tp_fone_pessoa('849333657')),
         tp_endereco('59233454', 'Muro Verde', '11', 'Palmas'),
-        0,
+        1,
         NULL
     )    
 );
@@ -420,7 +420,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('149333650')),
         tp_endereco('59211454', 'Muro alto', '111', 'Ilha do Retiro'),
         0,
-        NULL
+        tp_lista_bagagem (tp_bagagem('1', 8))
     )    
 );
 /
@@ -434,7 +434,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('213415547'),
             tp_fone_pessoa('123459950')),
         tp_endereco('98811454', 'Prazeres', '333', 'Campo Grande'),
-        0,
+        1,
         NULL
     )    
 );
@@ -465,7 +465,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('149333650')),
         tp_endereco('54300370', 'Ibura', '26', 'Vila do Sesi'),
         0,
-        NULL
+        tp_lista_bagagem (tp_bagagem('1', 8), tp_bagagem('2', 8), tp_bagagem('3', 8), tp_bagagem('4', 8))
     )    
 );
 /
@@ -479,7 +479,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('783115547'),
             tp_fone_pessoa('149333650')),
         tp_endereco('51300370', 'Boa Viagem', '356', 'Entra Apulso'),
-        0,
+        1,
         NULL
     )    
 );
@@ -510,7 +510,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('783225547'),
             tp_fone_pessoa('109333650')),
         tp_endereco('54300370', 'Rua Lugar', '260', 'Jardim'),
-        0,
+        1,
         NULL
     )    
 );
@@ -526,7 +526,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('109333650')),
         tp_endereco('54100370', 'Rua Jardim', '267', 'Jardins'),
         0,
-        NULL
+        tp_lista_bagagem (tp_bagagem('1', 13), tp_bagagem('2', 22))
     )    
 );
 /
@@ -540,7 +540,7 @@ INSERT INTO tb_passageiro VALUES (
             tp_fone_pessoa('213225547'),
             tp_fone_pessoa('321311350')),
         tp_endereco('31231370', 'Rua Davi Pscicopata', '21', 'Jardim Brasil'),
-        0,
+        1,
         NULL
     )    
 );
@@ -1176,11 +1176,6 @@ INSERT INTO tb_trabalha VALUES (
 
 ------------------------------------------Povoamento tb_compra -----------------------------------------------------
 
-insert into tb_compra values ('350326078',3000,
-    (SELECT REF(c) FROM tb_cia_aerea c WHERE c.cnpj = '06164253000187'),
-    (SELECT REF(p) FROM tb_passageiro p WHERE p.cpf = '18683894487')
-);
-/
 
 
 insert into tb_compra values ('312984064',759,
@@ -1231,12 +1226,6 @@ insert into tb_compra values ('537887656',3960,
 insert into tb_compra values ('258183477',4245,
     (SELECT REF(c) FROM tb_cia_aerea c WHERE c.cnpj = '08692080000286'),
     (SELECT REF(p) FROM tb_passageiro p WHERE p.cpf = '45238400756')
-);
-/
-
-insert into tb_compra values ('738412219',3175,
-    (SELECT REF(c) FROM tb_cia_aerea c WHERE c.cnpj = '06164253000187'),
-    (SELECT REF(p) FROM tb_passageiro p WHERE p.cpf = '18683894487')
 );
 /
 
@@ -1301,10 +1290,6 @@ insert into tb_compra values ('222559602',5200,
 /
 ------------------------------------------Povoamento tb_passagem -----------------------------------------------------
 
-insert into tb_passagem values ('CP2X1V','15B',
-    (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 74488),
-    (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '350326078')
-);
 insert into tb_passagem values ('A07G9E','16B',
     (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 74488),
     (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '312984064')
@@ -1344,24 +1329,6 @@ insert into tb_passagem values ('LZVDVI','44B',
     (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 17942),
     (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '258183477')
 );
-
-insert into tb_passagem values ('QOFLZ8','12B',
-    (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 84828),
-    (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '738412219')
-);
-insert into tb_passagem values ('A4WFSE','13B',
-    (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 84828),
-    (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '388389369')
-);
-insert into tb_passagem values ('NDFQB7','20C',
-    (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 84828),
-    (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '589003455')
-);
-insert into tb_passagem values ('K5HQWH','21C',
-    (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 84828),
-    (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '113359863')
-);
-
 insert into tb_passagem values ('IV69IY','31B',
     (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 78594),
     (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '472676094')
@@ -1387,5 +1354,3 @@ insert into tb_passagem values ('FZ6S1N','32A',
     (SELECT REF(v) FROM tb_voo v WHERE v.codigo = 83271),
     (SELECT REF(c) FROM tb_compra c WHERE c.id_compra = '222559602')
 );
-
-
