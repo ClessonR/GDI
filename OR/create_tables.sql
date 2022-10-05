@@ -1,23 +1,26 @@
-DROP TABLE tb_cia_aerea
-DROP TABLE tb_aviao
-DROP TABLE tb_voo
+/*CREATE TABLE tb_endereco OF tp_endereco(
+    cep PRIMARY KEY,
+    rua NOT NULL,
+    numero NOT NULL,
+    cidade NOT NULL
+);*/
 
-CREATE TABLE tb_passageiro of tp_pasageiro(
+CREATE TABLE tb_passageiro of tp_passageiro(
     cpf PRIMARY KEY, 
     nome NOT NULL,
     idade NOT NULL,
-    telefone NOT NULL,
+    telefones NOT NULL,
     endereco NOT NULL,
-    fidelidade NOT NULL
-)NESTED TABLE bagagem STORE AS bagagem_passageiro;
+    fidelidade NOT NULL CHECK(fidelidade == 1 OR fidelidade == 0)
+) NESTED TABLE bagagem STORE AS bagagem_passageiro, NESTED TABLE lista_compras AS compra_passagens (NESTED TABLE lista_passagens_c STORE AS passagens_pasageiro);
+ 
 /
 
-CREATE TABLE tb_tripulante of tp_tripulante(
+CREATE TABLE tb_tripulante OF tp_tripulante(
     cpf PRIMARY KEY, 
     nome NOT NULL,
-    cpf NOT NULL,
     idade NOT NULL,
-    telefone NOT NULL,
+    telefones NOT NULL,
     endereco NOT NULL,
     cargo NOT NULL,
     cadastro NOT NULL,
@@ -29,29 +32,35 @@ CREATE TABLE tb_tripulante of tp_tripulante(
 CREATE TABLE tb_cia_aerea OF tp_cia_aerea(
     cnpj PRIMARY KEY,
     nome NOT NULL
-);
+) NESTED TABLE lista_avioes STORE AS avioes_cia;
 /
 
-CREATE TABLE tb_aviao OF tp_aviao(
+/*CREATE TABLE tb_aviao OF tp_aviao(
     aviao_id PRIMARY KEY
     tipo NOT NULL
 )
-/
+/*/
 
 CREATE TABLE tb_voo OF tp_voo (
     codigo PRIMARY KEY,
     portao NOT NULL,
     local_partida NOT NULL, 
     local_chegada NOT NULL
+) NESTED TABLE lista_passagens STORE AS passagens_voo;
+/
+
+/*CREATE TABLE tb_passagem OF tp_passagem (
+    id PRIMARY KEY,
+    assento NOT NULL  
 );
 /
 
-CREATE TABLE tb_passagem OF tp_passagem (
-    id PRIMARY KEY,
-    assento NOT NULL
-        
+CREATE TABLE tb_compra OF tp_compra(
+    id_compra PRIMARY KEY,
+    valor NOT NULL,
+    desconto WITH ROWID REFERENCES tb_cia_aerea NOT NULL
 );
-/
+/*/
 
 CREATE TABLE tb_trabalha OF tp_trabalha (
     tripulante WITH ROWID REFERENCES tb_tripulante NOT NULL,
@@ -63,22 +72,7 @@ CREATE TABLE tb_trabalha OF tp_trabalha (
 
 CREATE TABLE tb_escala OF tp_escala(
     voo WITH ROWID REFERENCES tb_voo NOT NULL,
-    aviao WITH ROWID REFERENCES tb_aviao NOT NULL,
+    --aviao WITH ROWID REFERENCES tb_aviao NOT NULL,'
     tripulante WITH ROWID REFERENCES tb_tripulante NOT NULL
 );
 /
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
