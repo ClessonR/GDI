@@ -1,7 +1,7 @@
 -- PESSOA --
 
 CREATE OR REPLACE TYPE tp_endereco AS OBJECT(
-    Rua varchar2(20),
+    rua varchar2(20),
     numero varchar2(6),
     cep varchar2(15),
     cidade varchar2(20)
@@ -16,49 +16,78 @@ CREATE OR REPLACE TYPE tp_fone_pessoa AS OBJECT(
 CREATE OR REPLACE TYPE tp_fone_pessoa_array AS VARRAY(4) OF tp_fone_pessoa;
 /
 
--- falta testar com as tabelas
 CREATE OR REPLACE TYPE tp_pessoa AS OBJECT(
-    nome varchar2(20),
     cpf varchar2(11),
+    nome varchar2(20),
     idade integer,
-    telefones ref tp_fone_pessoa,
+    telefones tp_fone_pessoa_array,
     endereco ref tp_endereco,
+    MEMBER PROCEDURE display_info,
+    FINAL MEMBER PROCEDURE display_address -- o endereço não é alterado para os tipos herdados   
     ORDER MEMBER FUNCTION func_order(ord_tb_pessoa tp_pessoa) RETURN NUMBER
-)NOT FINAL  NOT INSTANTIABLE;
+
+)NOT FINAL NOT INSTANTIABLE ;
 /
-CREATE OR REPLACE TYPE body tp_pessoa
-IS
-  ORDER MEMBER FUNCTION func_order(ord_tb_pessoa tp_pessoa) RETURN NUMBER
-IS
-BEGIN
-  IF (ord_tb_pessoa.idade < self.idade) then 
-     RETURN 1;
-  ELSIF (ord_tb_pessoa.idade = self.idade) then  
-    RETURN 0;
-  ELSe (ord_tb_pessoa.idade > self.idade) then 
-    RETURN -1;
-  END IF;
+CREATE OR REPLACE TYPE body tp_pessoa AS
+    ORDER MEMBER FUNCTION func_order(ord_tb_pessoa tp_pessoa) RETURN NUMBER IS
+    BEGIN
+        IF (ord_tb_pessoa.idade < self.idade) then 
+            RETURN 1;
+        ELSIF (ord_tb_pessoa.idade = self.idade) then  
+            RETURN 0;
+        ELSe (ord_tb_pessoa.idade > self.idade) then 
+            RETURN -1;
+    END IF;
+    END;
+    
+    MEMBER PROCEDURE display_info IS
+    BEGIN
+        dbms_output.putline('Nome: ' || nome);
+        dbms_output.putline('CPF: ' || cpf);
+        dbms_output.putline('Idade: ' || idade);
+        dbms_output.putline('Cargo: ' || cargo);
+        dbms_output.putline('Salário: ' || salario);
+    END;
+
+    FINAL MEMBER PROCEDURE display_address IS
+    BEGIN
+        dbms_output.putline('Endereço: ' || endereco.rua || " " || endereco.numero || ", " || endereco.cidade)
+    END;
+
 END;
 /
-
-
 
 -------- PASSAGEIRO ----------------------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_pasageiro UNDER tp_pessoa(
-    fidelidade BIT 
+    fidelidade boolean,
 );
 /
 
 -------- TRIPULANTE ----------------------------------------------------------------
 
-CREATE SEQUENCE cadastro INCREMENT by 1 START WITH 1;
 CREATE OR REPLACE TYPE tp_tripulante UNDER tp_pessoa(
     cargo varchar2(20),
     cadastro integer,
-    salario number(8,2)
+    salario number(8,2),
+    MEMBER FUNCTION calc_aumento_salario(percentual number) RETURN number,
+    OVERRIDING MEMBER PROCEDURE display_info
 );
 /
+
+CREATE OR REPLACE TYPE BODY tp_passageiro AS
+    OVERRIDING MEMBER PROCEDURE display_info IS
+    BEGIN
+        dbms_output.putline('Nome: ' || nome);
+        dbms_output.putline('CPF: ' || cpf);
+        dbms_output.putline('Idade: ' || idade);
+        dbms_output.putline('Cargo: ' || cargo);
+        dbms_output.putline('Salário: ' || salario);
+    END;
+
+    MEMBER FUNCTION calc_aumento_salario IS
+END;
+
 
 ------------- ADICIONANDO SUPERVISOR DE CADA TRIPULANTE ------------------------------------------
 
