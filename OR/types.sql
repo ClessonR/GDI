@@ -23,11 +23,12 @@ CREATE OR REPLACE TYPE tp_pessoa AS OBJECT(
     telefones tp_fone_pessoa_array,
     endereco ref tp_endereco,
     MEMBER PROCEDURE display_info,
-    FINAL MEMBER PROCEDURE display_address -- o endereço não é alterado para os tipos herdados   
+    FINAL MEMBER PROCEDURE display_address, -- o endereço não é alterado para os tipos herdados   
     ORDER MEMBER FUNCTION func_order(ord_tb_pessoa tp_pessoa) RETURN NUMBER
 
-)NOT FINAL NOT INSTANTIABLE ;
+)NOT FINAL NOT INSTANTIABLE;
 /
+
 CREATE OR REPLACE TYPE body tp_pessoa AS
     ORDER MEMBER FUNCTION func_order(ord_tb_pessoa tp_pessoa) RETURN NUMBER IS
     BEGIN
@@ -37,7 +38,7 @@ CREATE OR REPLACE TYPE body tp_pessoa AS
             RETURN 0;
         ELSe (ord_tb_pessoa.idade > self.idade) then 
             RETURN -1;
-    END IF;
+        END IF;
     END;
     
     MEMBER PROCEDURE display_info IS
@@ -45,8 +46,6 @@ CREATE OR REPLACE TYPE body tp_pessoa AS
         dbms_output.putline('Nome: ' || nome);
         dbms_output.putline('CPF: ' || cpf);
         dbms_output.putline('Idade: ' || idade);
-        dbms_output.putline('Cargo: ' || cargo);
-        dbms_output.putline('Salário: ' || salario);
     END;
 
     FINAL MEMBER PROCEDURE display_address IS
@@ -59,8 +58,8 @@ END;
 
 -------- PASSAGEIRO ----------------------------------------------------------------
 
-CREATE OR REPLACE TYPE tp_pasageiro UNDER tp_pessoa(
-    fidelidade boolean,
+CREATE OR REPLACE TYPE tp_passageiro UNDER tp_pessoa(
+    fidelidade char(1)
 );
 /
 
@@ -75,7 +74,7 @@ CREATE OR REPLACE TYPE tp_tripulante UNDER tp_pessoa(
 );
 /
 
-CREATE OR REPLACE TYPE BODY tp_passageiro AS
+CREATE OR REPLACE TYPE BODY tp_tripulante AS
     OVERRIDING MEMBER PROCEDURE display_info IS
     BEGIN
         dbms_output.putline('Nome: ' || nome);
@@ -85,9 +84,15 @@ CREATE OR REPLACE TYPE BODY tp_passageiro AS
         dbms_output.putline('Salário: ' || salario);
     END;
 
-    MEMBER FUNCTION calc_aumento_salario IS
-END;
+    MEMBER FUNCTION calc_aumento_salario (percentual number) RETURN number IS
+        value number
+    BEGIN
+        value := percentual/10
+        RETURN salario * (1 + value)
+    END;
 
+END;
+/
 
 ------------- ADICIONANDO SUPERVISOR DE CADA TRIPULANTE ------------------------------------------
 
@@ -108,7 +113,7 @@ CREATE OR REPLACE TYPE tp_bagagem AS OBJECT(
 CREATE OR REPLACE TYPE tp_lista_bagagem AS TABLE OF tp_bagagem;
 /
 
-ALTER TYPE tp_pasageiro ADD ATTRIBUTE (lista_bagagens tp_lista_passagem) CASCADE;
+ALTER TYPE tp_passageiro ADD ATTRIBUTE (lista_bagagens tp_lista_bagagem) CASCADE;
 /
 
 ----- PASSAGEM ----------------------------------------
@@ -133,9 +138,18 @@ CREATE OR REPLACE TYPE tp_voo AS OBJECT(
 CREATE OR REPLACE TYPE tp_aviao AS OBJECT(
     aviao_id varchar2(10),  
     tipo varchar2(100)
+    CONSTRUCTOR FUNCTION tp_aviao (x1 tp_aviao) RETURN SELF AS RESULT
 );
 /
 
+CREATE OR REPLACE TYPE BODY tp_aviao AS
+    CONSTRUCTOR FUNCTION tp_gerente (x1 tp_aviao) RETURN SELF AS RESULT IS
+    BEGIN
+        aviao_id := x1.aviao_id; 
+        tipo := x1.tipo; 
+        RETURN; 
+    END;
+END;
 ---------- ESCALA --------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_escala AS OBJECT (
@@ -170,13 +184,11 @@ ALTER TYPE tp_cia_aerea ADD ATTRIBUTE (lista_avioes tp_lista_aviao) CASCADE;
 
 --------------------------------- TIPO COMPRA --------------------------
 CREATE OR REPLACE TYPE tp_compra AS OBJECT(
-    id_compra integer,
+    id_compra varchar2(4),
     valor integer,
-    desconto REF tp_cia_aerea
+    desconto REF tp_cia_aerea,
+    MAP MEMBER FUNCTION compare_id RETURN varchar2
 );
-/
-
-CREATE OR REPLACE TYPE tp_lista_passagem AS TABLE OF tp_passagem;
 /
 
 ALTER TYPE tp_compra ADD ATTRIBUTE (lista_passagens tp_lista_passagem) CASCADE;
@@ -189,6 +201,15 @@ ALTER TYPE tp_passageiro ADD ATTRIBUTE (lista_compras tp_lista_compra);
 /
 
 
+CREATE OR REPLACE TYPE BODY tp_compra AS
+
+    MAP MEMBER FUNCTION compare_id 
+    RETURN varchar2 IS
+    BEGIN
+        RETURN id_compra;
+    END;
+END;
+/
 ----------------- TRABALHA ---------------------------------
 CREATE OR REPLACE TYPE tp_trabalha AS OBJECT(
     tripulante REF tp_tripulante,
