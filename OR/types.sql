@@ -1,10 +1,30 @@
 -- PESSOA --
 
 CREATE OR REPLACE TYPE tp_endereco AS OBJECT(
+    cep varchar2(15),
     rua varchar2(20),
     numero varchar2(6),
-    cep varchar2(15),
-    cidade varchar2(20)
+    cidade varchar2(20),
+
+    CONSTRUCTOR FUNCTION tp_endereco (SELF IN OUT NOCOPY tp_endereco,
+    Cep VARCHAR2,
+    Rua VARCHAR2,
+    Numero VARCHAR2,
+    Cidade VARCHAR2) RETURN SELF AS RESULT
+);
+/
+
+
+
+CREATE OR REPLACE TYPE BODY tp_endereco AS (
+    CONSTRUCTOR FUNCTION tp_endereco (SELF IN OUT NOCOPY tp_endereco,
+    Cep VARCHAR2,
+    Rua VARCHAR2,
+    Numero VARCHAR2,
+    Cidade VARCHAR2) RETURN SELF AS RESULT IS BEGIN
+        SELF.cep := Cep; SELF.rua := Rua; SELF.numero:= Numero; SELF.cidade := Cidade; RETURN;
+        END;
+    END;
 );
 /
 
@@ -25,8 +45,7 @@ CREATE OR REPLACE TYPE tp_pessoa AS OBJECT(
     MEMBER PROCEDURE display_info,
     FINAL MEMBER PROCEDURE display_address, -- o endereço não é alterado para os tipos herdados   
     ORDER MEMBER FUNCTION func_order(ord_tb_pessoa tp_pessoa) RETURN NUMBER
-
-)NOT FINAL NOT INSTANTIABLE;
+)NOT FINAL NOT INSTANTIABLE ;
 /
 
 CREATE OR REPLACE TYPE body tp_pessoa AS
@@ -59,7 +78,7 @@ END;
 -------- PASSAGEIRO ----------------------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_passageiro UNDER tp_pessoa(
-    fidelidade char(1)
+    fidelidade integer
 );
 /
 
@@ -71,6 +90,7 @@ CREATE OR REPLACE TYPE tp_tripulante UNDER tp_pessoa(
     salario number(8,2),
     MEMBER FUNCTION calc_aumento_salario(percentual number) RETURN number,
     OVERRIDING MEMBER PROCEDURE display_info
+
 );
 /
 
@@ -94,7 +114,7 @@ CREATE OR REPLACE TYPE BODY tp_tripulante AS
 END;
 /
 
-------------- ADICIONANDO SUPERVISOR DE CADA TRIPULANTE ------------------------------------------
+------------- ADICIONANDO SUPERVISOR DE CADA TRIPULANTE ----------------------
 
 ALTER TYPE tp_tripulante ADD ATTRIBUTE (supervisor REF tp_tripulante) CASCADE;
 /
@@ -104,8 +124,7 @@ ALTER TYPE tp_tripulante ADD ATTRIBUTE (supervisor REF tp_tripulante) CASCADE;
 
 CREATE OR REPLACE TYPE tp_bagagem AS OBJECT(
     bag_id varchar2(6),
-    peso float, 
-    inspecao integer
+    peso float
 );
 /
 
@@ -167,13 +186,6 @@ CREATE OR REPLACE TYPE tp_cia_aerea AS OBJECT(
 );
 /
 
---------- COLOCANDO A LISTA DE PASSAGEM EM CADA VOO --------------------
-
-CREATE OR REPLACE TYPE tp_lista_passagem AS TABLE OF tp_passagem;
-/
-
-ALTER TYPE tp_voo ADD ATTRIBUTE (lista_passagens tp_lista_passagem) CASCADE;
-/
 ---------- COLOCANDO A LISTA DE AVIÕES DE CADA COMPANHIA AEREA ---------------
 
 CREATE TYPE tp_lista_aviao AS TABLE OF tp_aviao;
@@ -193,6 +205,11 @@ CREATE OR REPLACE TYPE tp_compra AS OBJECT(
 
 ALTER TYPE tp_compra ADD ATTRIBUTE (lista_passagens tp_lista_passagem) CASCADE;
 /
+
+ALTER TYPE tp_compra ADD ATTRIBUTE (lista_passagens_c tp_lista_passagem) CASCADE;
+/
+
+--------------------- COLOCANDO A Compra EM Passageiro ----------------------s
 
 CREATE OR REPLACE TYPE tp_lista_compra AS TABLE OF tp_compra;
 /
