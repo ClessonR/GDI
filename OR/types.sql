@@ -1,5 +1,4 @@
 -- PESSOA --
-
 CREATE OR REPLACE TYPE tp_endereco AS OBJECT(
     cep varchar2(50),
     rua varchar2(200),
@@ -96,7 +95,7 @@ CREATE OR REPLACE TYPE BODY tp_tripulante AS
      MEMBER FUNCTION calc_aumento_salario (percentual number) RETURN number IS
         value number;
     BEGIN
-        value := percentual/10;
+        value := percentual/100;
         RETURN salario * (1 + value);
     END;
 

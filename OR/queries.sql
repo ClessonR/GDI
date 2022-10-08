@@ -73,3 +73,39 @@ where C.id_compra = DEREF(P.compra).id_compra
 and PG.cpf = DEREF(C.passageiro).cpf
 group by DEREF(P.voo).codigo
 /
+
+-- ordena compras do menor pro maior id
+SELECT C.valor, C.id_compra, C.passageiro.nome FROM tb_compra C ORDER BY C.compare_id() ASC;
+
+
+-- order member function para comparar idade dos passageiros
+DECLARE
+    aux NUMBER;
+    idade1 tp_passageiro;
+    idade2 tp_passageiro;
+BEGIN
+    SELECT VALUE(P) INTO idade1 FROM tb_passageiro P WHERE cpf = '03757527062';
+    SELECT VALUE(P) INTO idade2 FROM tb_passageiro P WHERE cpf = '64145381084';
+    aux := idade1.func_order(idade2);
+    IF aux = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Ambos passageiros tem a mesma idade.');
+    ELSIF aux = -1 THEN
+        DBMS_OUTPUT.PUT_LINE('O passageiro ' || TO_CHAR(idade2.nome) || ' tem mais idade que o passageiro '|| TO_CHAR(idade1.nome) ||'.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('O passageiro ' || TO_CHAR(idade2.nome) || ' tem mais idade que o passageiro '|| TO_CHAR(idade1.nome) ||'.');
+    END IF;
+END;
+/
+
+--compara o gasto antigo com o novo se tiver um aumento de 10% no salario dos pilotos 
+DECLARE
+    novo_valor number;
+    antigo_valor number;
+BEGIN
+    SELECT sum(tr.salario) INTO antigo_valor FROM tb_tripulante tr WHERE tr.cargo = 'Piloto';
+    SELECT sum(tr.calc_aumento_salario(10)) INTO novo_valor FROM tb_tripulante tr WHERE tr.cargo = 'Piloto';
+    dbms_output.put_line('valor atual é ' || antigo_valor);
+    dbms_output.put_line('novo valor será ' || novo_valor);
+END;
+/
+
