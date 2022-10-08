@@ -219,3 +219,4 @@ CREATE OR REPLACE TYPE tp_passagem AS OBJECT(
     compra REF tp_compra
 );
 /
+
